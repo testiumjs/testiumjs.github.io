@@ -1,19 +1,61 @@
 - title: Quick Start
   items:
-  - url: /index.html
-    title: Introduction
-    subitems:
-    - url: /mocha.html
-      title: Setup mocha
-    - url: /tap.html
-      title: Setup tap
+  - url: /setup.html
+    title: Setup Guide
   - url: /config.html
     title: Configuration
+  - url: /cookbook.html
+    title: Cookbook
+    subitems:
+    - url: /cookbook/rest.html
+      title: Test API endpoints
+    - url: /cookbook/repl.html
+      title: Testium REPL
+    - url: /cookbook/byo-selenium.html
+      title: BYO Selenium
 - title: API
   items:
-  - url: /api.html
-    title: Initiating Testium
-  - url: /sync.html
-    title: Using sync-http
-  - url: /wd.html
-    title: Using Promises
+  - url: /api/
+    title: Create Driver
+  - url: /api/sync/
+    title: Synchronous
+    subitems:
+    - url: '/api/sync/#navigation'
+      title: Navigation
+    - url: '/api/sync/#elements'
+      title: 'Elements'
+    - url: '/api/sync/#forms'
+      title: 'Forms'
+    - url: '/api/sync/#images'
+      title: 'Images'
+    - url: '/api/sync/#cookies'
+      title: Cookies
+    - url: '/api/sync/#page'
+      title: Page
+    - url: '/api/sync/#alerts'
+      title: 'Alerts & Confirms'
+    - url: '/api/sync/#windows'
+      title: 'Windows & Frames'
+    - url: '/api/sync/#mixins'
+      title: 'Custom Methods'
+  - url: /api/wd/
+    title: Promise Chains
+    subitems:
+    - url: '/api/wd/#navigation'
+      title: Navigation
+    - url: '/api/wd/#elements'
+      title: 'Elements'
+    - url: '/api/wd/#forms'
+      title: 'Forms'
+    - url: '/api/wd/#images'
+      title: 'Images'
+    - url: '/api/wd/#cookies'
+      title: Cookies
+    - url: '/api/wd/#page'
+      title: Page
+    - url: '/api/wd/#alerts'
+      title: 'Alerts & Confirms'
+    - url: '/api/wd/#windows'
+      title: 'Windows & Frames'
+    - url: '/api/wd/#mixins'
+      title: 'Custom Methods'

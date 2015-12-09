@@ -1,7 +1,7 @@
 ---
 title: Introduction
-layout: sidebar
-category: intro
+layout: full-width
+category: landing
 ---
 
 ## Introduction
