@@ -8,7 +8,7 @@ category: intro
 
 **Note:** This guide assumes that your app can be started using `npm start`
 and accepts a port passed in as the `PORT` environment variable.
-Have a look at the [configuration guide](config.html) if that's not the case.
+Have a look at the [configuration guide](config.html#app) if that's not the case.
 
 ### Step 1: Install
 
