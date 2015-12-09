@@ -1,7 +1,7 @@
 title: Testium
-baseurl: '/testium'
-sourceUrl: https://github.com/groupon/testium
-sourceBranch: gh-pages
+baseurl: ''
+sourceUrl: https://github.com/testiumjs/testiumjs.github.io
+sourceBranch: master
 projectUrl: https://github.com/groupon/testium
 copyright: "Copyright © 2015 Groupon, Inc. All Rights Reserved."
 
