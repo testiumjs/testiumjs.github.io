@@ -6,7 +6,9 @@ category: intro
 
 ## Setup Guide
 
-**Note:** This guide assumes that your app can be started using `npm start`. Have a look at the [configuration guide](config.html) if that's not the case.
+**Note:** This guide assumes that your app can be started using `npm start`
+and accepts a port passed in as the `PORT` environment variable.
+Have a look at the [configuration guide](config.html) if that's not the case.
 
 ### Step 1: Install
 
@@ -49,6 +51,14 @@ describe('The homepage', function() {
 
 ### Step 4: Run Tests
 
+You can just run the file above using `mocha`
+and testium will handle everything for you:
+
+* Launch the app and phantomjs.
+* Wait for the app to listen.
+* Clear cookies & reset the window to a well-known size.
+* Close the webdriver session and tear down your app & phantomjs.
+
 ```sh
 ./node_modules/.bin/mocha my-test.js
 # Or, after adding 'node_modules/.bin' to your $PATH:
@@ -61,3 +71,5 @@ This makes it super easy to run the same test in Chrome:
 ```sh
 testium_browser=chrome mocha my-test.js
 ```
+
+Testium will automatically download selenium and chromedriver the first time they are needed.
