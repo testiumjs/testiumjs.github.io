@@ -4,7 +4,7 @@
     title: Setup Guide
   - url: /config.html
     title: Configuration
-  - url: /cookbook.html
+  - url: /cookbook/
     title: Cookbook
     subitems:
     - url: /cookbook/rest.html
