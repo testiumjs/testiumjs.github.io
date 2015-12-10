@@ -7,7 +7,7 @@
 - title: API
   items:
   - url: /api/
-    title: Create Driver
+    title: Core API
   - url: /api/sync/
     title: Synchronous
     subitems:

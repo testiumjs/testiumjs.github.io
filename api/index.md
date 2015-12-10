@@ -1,9 +1,9 @@
 ---
-title: API
+title: Core API
 layout: sidebar
 ---
 
-## Testium API
+## Core API
 
 ### Mocha Bindings: [`testium-mocha`](https://www.npmjs.com/package/testium-mocha)
 
