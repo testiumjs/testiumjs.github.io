@@ -140,6 +140,26 @@ body.gig h4 {
   font-size: 15px;
 }
 
+.header-link {
+  padding: 0 0.2em;
+  display: none;
+}
+
+.header-link:hover {
+  text-decoration: none;
+}
+
+.header-link i::before {
+  color: #999;
+  content: '#';
+}
+
+h3:hover, h4:hover, h5:hover {
+  .header-link {
+    display: inline;
+  }
+}
+
 a.gh-edit {
   color: #888;
 }
