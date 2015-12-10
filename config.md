@@ -23,6 +23,40 @@ If no browser is specified, testium will assume it's `'phantomjs'`.
 Additional desired [webdriver capabilities](https://code.google.com/p/selenium/wiki/DesiredCapabilities).
 The `browserName` field is ignored. It's read from `browser`.
 
+#### `driver`
+
+Determines the interface for interacting with the browser.
+Testium will prepend the value with `testium-driver-` and treat the resulting string as an npm module name.
+The default value is "sync", so testium will try to load `testium-driver-sync`.
+
+The ["sync" interface](/api/sync/) uses blocking/synchronous HTTP calls:
+
+```js
+// This will block until the page is loaded
+browser.navigateTo('/');
+// All browser interactions are synchronous,
+// so we can just call the return value into any assertion library.
+assert.equal(browser.getPageTitle(), 'Hello');
+```
+
+When `driver` is set to "wd",
+you'll get a [promise-chain interface](/api/wd/) powered by [`wd`](http://admc.io/wd/):
+
+```js
+browser
+  .navigateTo('/')
+  .getPageTitle().then(function(title) {
+    assert.equal(title, 'Hello');
+  });
+```
+
+This becomes much nicer when combined with [async/await](https://tc39.github.io/ecmascript-asyncawait/), e.g. using babel:
+
+```js
+await browser.navigateTo('/');
+assert.equal(await browser.getPageTitle(), 'Hello');
+```
+
 #### `launch`
 
 Set this to `true` if you want testium to handle starting the app during initialization and stopping it at the end.

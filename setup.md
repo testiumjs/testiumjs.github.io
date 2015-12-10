@@ -13,7 +13,7 @@ Have a look at the [configuration guide](config.html#app) if that's not the case
 ### Step 1: Install
 
 ```sh
-npm install --save-dev testium-mocha mocha
+npm install --save-dev testium-mocha testium-driver-sync mocha
 ```
 
 ### Step 2: Configure
