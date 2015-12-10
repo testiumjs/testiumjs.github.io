@@ -4,15 +4,6 @@
     title: Setup Guide
   - url: /config.html
     title: Configuration
-  - url: /cookbook/
-    title: Cookbook
-    subitems:
-    - url: /cookbook/rest.html
-      title: Test API endpoints
-    - url: /cookbook/repl.html
-      title: Testium REPL
-    - url: /cookbook/byo-selenium.html
-      title: BYO Selenium
 - title: API
   items:
   - url: /api/

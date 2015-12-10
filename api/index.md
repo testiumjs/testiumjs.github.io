@@ -58,6 +58,10 @@ A proxy to [`testium.browser`](/api/#testium-browser) once the before hook finis
 
 ### Low-Level API: [`testium-core`](https://www.npmjs.com/package/testium-core)
 
+Most of the time it won't be neccessary to interact with `testium-core` directly.
+But when implementing a new kind of `browser` interface or integrating with a different test framework,
+the information below might be helpful.
+
 #### `getBrowser(options)`
 
 Convenience method that calls [`getTestium`](/api/#gettestium-options) and then returns the [`browser` property](/api/#testium-browser).
