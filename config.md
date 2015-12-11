@@ -127,14 +127,14 @@ Each setting is an array of module names that will be resolved relative to the w
 **Synchronous Driver Only**
 
 Additional methods for `browser.assert.*` and `browser.*` respectively.
-See [section on custom methods](todo.html) for how the files should be structured.
+See [section on custom methods](/api/sync/mixins.html) for how the files should be structured.
 
 #### `wd`
 
 **Promise Chain Driver Only**
 
 Additional methods for `browser.*`.
-See [section on custom methods](todo.html) for how the files should be structured.
+See [section on custom methods](/api/wd/mixins.html) for how the files should be structured.
 
 ### mocha
 

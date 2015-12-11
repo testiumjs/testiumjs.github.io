@@ -17,36 +17,17 @@
       title: 'Elements'
     - url: '/api/sync/#forms'
       title: 'Forms'
-    - url: '/api/sync/#images'
-      title: 'Images'
+    - url: '/api/sync/#evaluate'
+      title: 'Evaluate'
     - url: '/api/sync/#cookies'
       title: Cookies
     - url: '/api/sync/#page'
       title: Page
-    - url: '/api/sync/#alerts'
+    - url: '/api/sync/#alerts-amp-confirms'
       title: 'Alerts & Confirms'
-    - url: '/api/sync/#windows'
+    - url: '/api/sync/#windows-amp-frames'
       title: 'Windows & Frames'
-    - url: '/api/sync/#mixins'
+    - url: '/api/sync/mixins.html'
       title: 'Custom Methods'
   - url: /api/wd/
     title: Promise Chains
-    subitems:
-    - url: '/api/wd/#navigation'
-      title: Navigation
-    - url: '/api/wd/#elements'
-      title: 'Elements'
-    - url: '/api/wd/#forms'
-      title: 'Forms'
-    - url: '/api/wd/#images'
-      title: 'Images'
-    - url: '/api/wd/#cookies'
-      title: Cookies
-    - url: '/api/wd/#page'
-      title: Page
-    - url: '/api/wd/#alerts'
-      title: 'Alerts & Confirms'
-    - url: '/api/wd/#windows'
-      title: 'Windows & Frames'
-    - url: '/api/wd/#mixins'
-      title: 'Custom Methods'
