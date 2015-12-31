@@ -46,11 +46,12 @@ and apply a number of changes to the current test suite:
 * Inject a `browser` property onto the test context.
 * Switch out the prototype of the [`browser` export](/api/#browser) to point to [`testium.browser`](/api/#testium-browser).
 
-The `options` are forwarder to [`getTestium`](/api/#gettestium-options)
+The `options` are forwarded to [`getTestium`](/api/#gettestium-options)
 
 #### `browser`
 
-A proxy to [`testium.browser`](/api/#testium-browser) once the before hook finished.
+After `browser.beforeHook` has been executed,
+this object will be a proxy to [`testium.browser`](/api/#testium-browser).
 
 #### `browser.beforeHook`
 

@@ -536,7 +536,7 @@ Delete a cookie by `name` that is visible to the current page.
 This API allows you to interact with
 alert, confirm, and prompt dialogs.
 
-Some browsers, notable phantomjs,
+Some browsers, notably phantomjs,
 don't support this part of the WebDriver spec.
 You can guard against this by checking
 the [Capabilities](#capabilities) object.

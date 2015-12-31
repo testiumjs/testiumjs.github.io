@@ -15,13 +15,20 @@ since most test runners (e.g. `mocha`) have their own argv handling.
 #### `browser`
 
 The name of the browser to use.
-Expects a valid webdriver `browserName`.
 If no browser is specified, testium will assume it's `'phantomjs'`.
+Typical values are `phantomjs`, `chrome`, or `firefox`.
+The latter two depend on which browsers are installed on your computer.
+
+A fully featured selenium grid might support many more browsers.
+The webdriver docs contain a [list of known values for `browserName`](https://code.google.com/p/selenium/wiki/DesiredCapabilities#Used_by_the_selenium_server_for_browser_selection).
 
 #### `desiredCapabilities`
 
 Additional desired [webdriver capabilities](https://code.google.com/p/selenium/wiki/DesiredCapabilities).
 The `browserName` field is ignored. It's read from `browser`.
+This is mostly useful when running against a dedicated selenium grid.
+It allows you to describe what kind of browser and OS you need
+and the grid will create a session for the best match it can find.
 
 #### `driver`
 
