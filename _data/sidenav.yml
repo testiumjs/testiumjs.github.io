@@ -31,3 +31,22 @@
       title: 'Custom Methods'
   - url: /api/wd/
     title: Promise Chains
+    subitems:
+    - url: '/api/wd/#navigation'
+      title: Navigation
+    - url: '/api/wd/#elements'
+      title: 'Elements'
+    - url: '/api/wd/#forms'
+      title: 'Forms'
+    - url: '/api/wd/#evaluate'
+      title: 'Evaluate'
+    - url: '/api/wd/#cookies'
+      title: Cookies
+    - url: '/api/wd/#page'
+      title: Page
+    - url: '/api/wd/#alerts-amp-confirms'
+      title: 'Alerts & Confirms'
+    - url: '/api/wd/#windows-amp-frames'
+      title: 'Windows & Frames'
+    - url: '/api/wd/mixins.html'
+      title: 'Custom Methods'
