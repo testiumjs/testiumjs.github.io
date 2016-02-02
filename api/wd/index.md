@@ -370,6 +370,22 @@ Returns `true` if the element is visible.
 
 Clears the input found by the given `cssSelector`.
 
+#### `browser.fillFields(fields)`
+
+Convenience method for setting the value for multiple form fields at once.
+`fields` is an object that maps css selectors to values.
+
+```js
+browser.fillFields({
+  '.first-name': 'Jamie',
+  '.last-name': 'Smith',
+});
+// Equivalent to:
+browser
+  .setValue('.first-name', 'Jamie')
+  .setValue('.last-name', 'Smith');
+```
+
 #### `browser.setValue(cssSelector, value)`
 
 *Alias: browser.clearAndType*
