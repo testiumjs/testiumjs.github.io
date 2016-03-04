@@ -4,6 +4,8 @@
     title: Setup Guide
   - url: /config.html
     title: Configuration
+  - url: /troubleshoot.html
+    title: Troubleshoot
 - title: API
   items:
   - url: /api/
