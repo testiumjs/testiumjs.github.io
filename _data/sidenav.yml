@@ -29,6 +29,8 @@
       title: 'Alerts & Confirms'
     - url: '/api/sync/#windows--frames'
       title: 'Windows & Frames'
+    - url: '/api/sync/#pointer'
+      title: 'Pointer'
     - url: '/api/sync/mixins.html'
       title: 'Custom Methods'
   - url: /api/wd/
