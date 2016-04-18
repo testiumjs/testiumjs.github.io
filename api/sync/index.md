@@ -347,6 +347,12 @@ var elementId = element.get('id');
 
 Returns `true` if the element is visible.
 
+#### `element.movePointerRelativeTo(x, y)`
+
+Moves the pointer to the given coordinates, relative to the element's position.
+If `x` or `y` are omitted or `null`, they default to the center of the
+element (horizontally or vertically, as appropriate)
+
 ### Forms
 
 #### `browser.clear(cssSelector)`
@@ -635,3 +641,15 @@ browser.switchToDefaultWindow();
 #### `browser.switchToWindow(name)`
 
 Switch focus to the window with name `name`.
+
+### Pointer
+
+#### `browser.buttonDown(button)`
+
+Press and hold the given `button` (defaults to `0` meaning left button; can
+  also be `1` for middle or `2` for right) at the location last set by
+  `Element#movePointerRelativeTo()`
+
+#### `browser.buttonUp(button)`
+
+Same as `buttonDown`, but releases the button.
