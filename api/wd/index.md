@@ -9,7 +9,7 @@ layout: sidebar
 
 `browser` is just a `wd` session with some additional helpers.
 Which means that all [methods in the `wd` docs](https://github.com/admc/wd/blob/master/doc/api.md) are expected to work.
-This page omits everything that is already part of `wd`.
+This page omits many things that are already part of `wd`.
 
 All methods return a Promise that can be chained.
 So whenever it says "returns a string", read "returns the promise of a string".
@@ -50,17 +50,14 @@ var errorLogs = browser.getConsoleLogs('error');
 
 Returns screenshot as a base64 encoded PNG.
 
-#### `browser.assert.imgLoaded( [docString,] selector)`
+#### `browser.assertImgLoaded(selector)`
 
 *Not implemented yet.*
 
 Asserts that the image element at `selector` has both loaded and been decoded successfully.
 
-Allows an optional extra _initial_ docstring argument
-for semantic documentation about the test when the assertion fails.
-
 ```js
-browser.assert.imgLoaded('.logo');
+browser.assertImgLoaded('.logo');
 ```
 
 ### Navigation
@@ -108,13 +105,13 @@ This is especially useful as a method to short circuit test failures.
 
 ```js
 describe('products', function() {
-  before(browser.beforeHook);
-  before(function() {
-    return browser.navigateTo('/products')
+  before(browser.beforeHook());
+  before(() =>
+    browser.navigateTo('/products')
       // If this fails, the three tests below
       // will not be run, saving output noise
       .assertStatusCode(200);
-  });
+  );
 
   it('works 1', /* ... */);
   it('works 2', /* ... */);
@@ -186,10 +183,10 @@ allows the test to accept any order of query parameters.
 
 ```js
 browser
-  .navigateTo('/products?count=15&start=30');
+  .navigateTo('/products?count=15&start=30')
   // This will return immediately even though the order of `count` and `start`
   // is reversed.
-  browser.waitForUrl('/products', { start: 30, count: 15 });
+  .waitForUrl('/products', { start: 30, count: 15 });
 ```
 
 ### Elements
@@ -204,9 +201,7 @@ browser.clickOn('.button');
 
 #### `browser.getElement(cssSelector)`
 
-Finds an element on the page
-using the `cssSelector`
-and returns an [Element](/api/wd/#element).
+Finds an element on the page using the `cssSelector` and returns an [Element](/api/wd/#element).  If it fails to find an element matching the selector, it will reject with an error.
 
 ```js
 var button = browser.getElement('.button');
@@ -218,8 +213,8 @@ button.isVisible();
 Finds an element on the page using the `cssSelector`. Returns `null` if the element wasn't found.
 
 ```js
-var button = browser.getElement('.button1') || browser.getElement('.button2');
-assert.equal('OK', button.text());
+browser.getElementOrNull('.button1,.button2')
+  .then(button => assert.equal('OK', button && button.text()));
 ```
 
 #### `browser.getElements(cssSelector)`
@@ -242,7 +237,7 @@ Waits for the element at `cssSelector` to exist, then returns the [Element](/api
 
 Waits for the element at `cssSelector` to not exist, then returns `null`. Times out after `timeout` ms.
 
-#### `browser.assertElementHasText( [docString,] selector, textOrRegex)`
+#### `browser.assertElementHasText(selector, textOrRegex)`
 
 Asserts that the element at `selector` contains `textOrRegex`.
 Returns the element.
@@ -250,32 +245,26 @@ Returns the element.
 Throws exceptions if `selector` doesn't match a single node,
 or that node does not contain the given `textOrRegex`.
 
-Allows an optional extra docstring argument
-for semantic documentation about the test when the assertion fails.
-
 ```js
 browser.assertElementHasText('.user-name', 'someone');
 // is the same as:
 assert.equal('someone', browser.getElement('.user-name').text());
 ```
 
-#### `browser.assertElementLacksText( [docString,] selector, textOrRegex)`
+#### `browser.assertElementLacksText(selector, textOrRegex)`
 
 Asserts that the element at `selector` does not contain `textOrRegex`.
 Returns the element.
 
 Inverse of `assertElementHasText`.
 
-#### `browser.assertElementHasValue( [docString,] selector, textOrRegex)`
+#### `browser.assertElementHasValue(selector, textOrRegex)`
 
 Asserts that the element at `selector` does not have the value `textOrRegex`.
 Returns the element.
 
 Throws exceptions if `selector` doesn't match a single node,
 or that node's value is not `textOrRegex`.
-
-Allows an optional extra docstring argument
-for semantic documentation about the test when the assertion fails.
 
 ```js
 browser.assertElementHasValue('.user-name', 'someone else');
@@ -290,16 +279,13 @@ Returns the element.
 
 Inverse of `assertElementHasValue`.
 
-#### `browser.assertElementHasAttributes( [docString,] selector, attributesObject)`
+#### `browser.assertElementHasAttributes(selector, attributesObject)`
 
 Asserts that the element at `selector` contains `attribute:value` pairs specified by attributesObject.
 Returns the element.
 
 Throws exceptions if `selector` doesn't match a single node,
 or that node does not contain the given `attribute:value` pairs.
-
-Allows an optional extra docstring argument
-for semantic documentation about the test when the assertion fails.
 
 ```js
 browser.assertElementHasAttributes('.user-name', {
