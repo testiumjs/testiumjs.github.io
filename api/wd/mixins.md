@@ -53,11 +53,9 @@ In test files you can now start using `browser.login`:
 
 ```js
 // ...
-  before(browser.beforeHook);
+before(() => browser.login());
 
-  before(() => browser.login());
+before(() => browser.navigateTo('/account'));
 
-  before(() => browser.navigateTo('/account'));
-
-  it('shows the test user\'s account', () => { /* ... */ });
+it("shows the test user's account", () => { /* ... */ });
 ```
