@@ -195,7 +195,7 @@ The default is 4445.
 
 #### `proxy.host`
 
-If you wish to run your browser on a different host (see [`selenium.serverUrl`](#seleniumserverurl)), this will default to the output of `hostname -f` in order to let the browser know how to reach this proxy running on localhost - if this is not correct, set this to a hostname that can be reached by the selenium browser.  If this host is not reachable directly by the selenium host (due to firewall, NAT, VPN, CI container, etc.), see `proxy.tunnel.host`.
+If you wish to run your browser on a different host (see [`selenium.serverUrl`](config.html#seleniumserverurl)), this will default to the output of `hostname -f` in order to let the browser know how to reach this proxy running on localhost - if this is not correct, set this to a hostname that can be reached by the selenium browser.  If this host is not reachable directly by the selenium host (due to firewall, NAT, VPN, CI container, etc.), see `proxy.tunnel.host`.
 
 #### `proxy.tunnel.host`
 If you are using `driver = wd`, you may set this to open an SSH tunnel from a random port on a third party host thru to `proxy.port` on localhost by setting `proxy.tunnel.host` to a hostname which the testium-running user has permission to ssh to with no password (via `$SSH_AUTH_SOCK` agent or unencrypted private keys in `~/.ssh`).  If this hostname is not the same as the hostname that selenium will need to contact (e.g. you have to ssh to `foo-internal.example.com`, but selenium will contact the same host as `foo-external.example.com`), set `proxy.host` to the latter - otherwise you can leave `proxy.host` unset and it will default to the value of `proxy.tunnel.host`.
