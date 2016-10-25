@@ -85,7 +85,7 @@ Testium will create the following files in this directory:
 
 * `application.log`: Output of the application under test.
 * `phantomjs.log`: Phantomjs logs.
-  These include client-side JavaScript errors which otherwise might be hard to debug. 
+  These include client-side JavaScript errors which otherwise might be hard to debug.
   This file won't be created when using any browser but PhantomJS.
 * `proxy.log`: Output of the proxy that captures status codes and headers.
 * `selenium.log`: This only exists if you use a browser other than PhantomJS. It fulfills a role similar to `phantomjs.log`.
@@ -192,6 +192,24 @@ This allows testium to provide some additional features:
 The port to use for proxying.
 If the port is set to 0, testium will select a random available port.
 The default is 4445.
+
+#### `proxy.host`
+
+If you wish to run your browser on a different host (see [`selenium.serverUrl`](#seleniumserverurl)), this will default to the output of `hostname -f` in order to let the browser know how to reach this proxy running on localhost - if this is not correct, set this to a hostname that can be reached by the selenium browser.  If this host is not reachable directly by the selenium host (due to firewall, NAT, VPN, CI container, etc.), see `proxy.tunnel.host`.
+
+#### `proxy.tunnel.host`
+If you are using `driver = wd`, you may set this to open an SSH tunnel from a random port on a third party host thru to `proxy.port` on localhost by setting `proxy.tunnel.host` to a hostname which the testium-running user has permission to ssh to with no password (via `$SSH_AUTH_SOCK` agent or unencrypted private keys in `~/.ssh`).  If this hostname is not the same as the hostname that selenium will need to contact (e.g. you have to ssh to `foo-internal.example.com`, but selenium will contact the same host as `foo-external.example.com`), set `proxy.host` to the latter - otherwise you can leave `proxy.host` unset and it will default to the value of `proxy.tunnel.host`.
+
+You **must** set `GatewayPorts yes` in `/etc/ssh/sshd_config` on the tunnel host to allow it to accept connections to proxy.
+
+#### `proxy.tunnel.username`
+If the `$USER` environment variable is not an appropriate username for the ssh connection, you can override it here.
+
+#### `proxy.tunnel.sshPort`
+Defaults to 22
+
+#### `proxy.tunnel.port`
+If have already set up your own tunnel from a port on `proxy.tunnel.host` to `proxy.port` on this host, set `proxy.tunnel.port` to that port, and the SSH connection open will be skipped.
 
 ### repl
 
