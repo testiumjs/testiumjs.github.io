@@ -499,19 +499,42 @@ Cookie objects have the following general structure:
   "path" = "/",
   "domain" = currentPageDomain,
   "expiry" = endOfCurrentSession,
+  "secure" = false,
 }
 ```
 
-Please note that the default for `path` is testium specific.
+Note that the defaults shown above are testium-specific and **only** applied
+if you use `setCookieValue()` or `setCookieValues()` (recommended)
 
-#### `browser.setCookie(Cookie)`
+#### `browser.setCookieValue(name, value)`
 
-Sets a cookie on the current page's domain.
+Sets a cookie on the current page's domain to the value given.
 You can set cookies before loading your first page.
 Testium tells the browser to load a blank page first
 so that cookies can be set before loading a real page.
 
-#### `browser.setCookies([Cookie])`
+```js
+browser.setCookieValue('userId', '3');
+```
+
+#### `browser.setCookieValues({ [name]: value })`
+
+Given an object mapping cookie names to values, sets multiple cookies by
+calling `setCookieValue()` the requisite number of times for you.
+
+```js
+browser.setCookieValues({
+  userId: '3',
+  dismissedPopup: 'true',
+});
+```
+
+#### `browser.setCookie(Cookie)`
+
+This is the built-in `wd` `setCookie()` function, and applies none of the
+defaults above, and is only recommended for specific advanced uses.
+
+#### `browser.setCookies([Cookie])` **[DEPRECATED]**
 
 Sets all cookies in the array.
 
@@ -521,12 +544,11 @@ cookies = [
   { name: 'dismissedPopup', value: 'true' },
 ];
 browser.setCookies(cookies);
-
-// This is the same as:
-cookies.forEach(function(cookie) {
-  browser.setCookie(cookie);
-});
 ```
+
+This function calls `setCookie()`, and applies none of the useful testium
+defaults described above; it is now recommended that you instead use
+`setCookieValues()`
 
 #### `browser.getCookie(name)`
 
