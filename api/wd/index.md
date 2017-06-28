@@ -338,7 +338,12 @@ Clicks on the element, e.g. clicking on a button or a dropdown.
 #### `element.get(attribute)`
 
 Returns the element's specified HTML `attribute`,
-e.g. "value", "id", or "text".
+e.g. "value", "id", or "class".
+
+#### `element.text()`
+
+Returns the element's text contents.
+
 Note that WebDriver (and therefore testium)
 will not return text of hidden elements.
 
