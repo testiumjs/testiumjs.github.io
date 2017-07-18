@@ -205,7 +205,7 @@ Finds an element on the page using the `cssSelector` and returns an [Element](/a
 
 ```js
 var button = browser.getElement('.button');
-button.isVisible();
+button.isDisplayed();
 ```
 
 #### `browser.getElementOrNull(cssSelector)`
@@ -310,7 +310,7 @@ assert.expect(browser.getElement('.user-name').isDisplayed());
 Asserts that the element at `selector` is not visible.
 Returns the element.
 
-Inverse of `assertElementIsVisible`.
+Inverse of `assertElementIsDisplayed`.
 
 
 #### `browser.assertElementExists(selector)`
