@@ -15,7 +15,7 @@ Create a file `test/mixins/login.js` with the following content:
 
 ```js
 exports.login = function login() {
-  return this.navigateTo('/login')
+  return this.loadPage('/login')
     .type('.username', 'test')
     .type('.password', 'passw0rd')
     .clickOn('#login-btn');
@@ -55,7 +55,7 @@ In test files you can now start using `browser.login`:
 // ...
 before(() => browser.login());
 
-before(() => browser.navigateTo('/account'));
+before(() => browser.loadPage('/account'));
 
 it("shows the test user's account", () => { /* ... */ });
 ```
