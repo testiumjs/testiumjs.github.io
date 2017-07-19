@@ -24,6 +24,7 @@ but JSON is supported as well.
 
 ```ini
 launch = true
+driver = wd
 ```
 
 `launch` tells testium to start your application before running the test. Testium will automatically stop your application once all tests finished.
@@ -31,21 +32,22 @@ launch = true
 ### Step 3: Write Tests
 
 ```js
-var assert = require('assert');
+const assert = require('assert');
 
-var browser = require('testium-mocha').browser;
+const browser = require('testium-mocha').browser;
 
-describe('The homepage', function() {
+describe('The homepage', () => {
   before(browser.beforeHook());
 
-  before('Load homepage', function() {
-    browser.navigateTo('/');
-    browser.assert.httpStatus(200);
-  });
+  before('Load homepage', () =>
+    browser.loadPage('/')
+  );
 
-  it('shows the right title', function() {
-    assert.equal(browser.getPageTitle(), 'Hello');
-  });
+  it('shows the right title', () =>
+    browser.getPageTitle().then((title) => {
+      assert.equal(title, 'Hello');
+    })
+  );
 });
 ```
 

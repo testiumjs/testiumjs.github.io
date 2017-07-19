@@ -18,8 +18,8 @@ This also implies that the returned promises have to be passed to the test runne
 Since all return values are promises,
 the examples assume that `assert` refers to a library that is promise-aware like [`assertive-as-promised`](https://github.com/groupon/assertive-as-promised).
 
-Another thing to keep in mind is to always use `browser.navigateTo` and never `browser.get` to load a page.
-The reason is that `browser.navigateTo` will properly capture status code and headers whereas `browser.get` will not.
+Another thing to keep in mind is to always use `browser.loadPage` (or `browser.navigateTo`) and never `browser.get` to load a page.
+The reason is that `browser.loadPage` will properly capture status code and headers whereas `browser.get` will not.
 This is different from using `wd` directly because capturing status codes is not a native `wd` feature.
 
 #### `browser.capabilities`
@@ -91,14 +91,27 @@ assert.match(/^https:/, browser.getUrl());
 
 Returns the response status code for the current page.
 
-#### `browser.assertStatusCode(statusCode)`
+#### `browser.assertStatusCode(statusCode)` (deprecated)
 
 Asserts that the most recent response status code is `statusCode`.
+Note that you get this same functionality in `browser.loadPage` now.
 
 ```js
+// old
 browser
   .navigateTo('/products');
   .assertStatusCode(200);
+
+browser
+  .navigateTo('/page-that-redirect');
+  .assertStatusCode(302);
+
+// new
+browser
+  .loadPage('/products'); // implies assertStatusCode(200)
+
+browser
+  .loadPage('/page-that-redirects', { expectedStatusCode: 302 });
 ```
 
 This is especially useful as a method to short circuit test failures.
@@ -107,10 +120,7 @@ This is especially useful as a method to short circuit test failures.
 describe('products', function() {
   before(browser.beforeHook());
   before(() =>
-    browser.navigateTo('/products')
-      // If this fails, the three tests below
-      // will not be run, saving output noise
-      .assertStatusCode(200);
+    browser.loadPage('/products')
   );
 
   it('works 1', /* ... */);
@@ -119,13 +129,24 @@ describe('products', function() {
 });
 ```
 
-#### `browser.navigateTo(url, options)`
+#### `browser.loadPage(url, options)`
 
 Navigates the browser to the specificed relative or absolute url.
 The following options are supported:
 
 * `query`: An object with additional query parameters.
 * `headers`: An object with headers to inject.
+* `expectedStatusCode`: Defaults to `200`, can be one of:
+  * An integer status code that the response should equal
+  * A RegExp that the status code (as a string) should match
+  * A Function which takes the status code and returns `true` or `false` if it is acceptable
+
+#### `browser.navigateTo(url, options)` (deprecated)
+
+This does the same thing as `browser.loadPage()`, but:
+
+1. Doesn't support the `expectedStatusCode` option
+1. Doesn't default to asserting status code 200
 
 ##### Example: Relative URL with Headers
 
@@ -135,7 +156,7 @@ where `app.port` refers to [the config option](/config.html#app-port).
 ```js
 // Navigates to `http://127.0.0.1:${app.port}/products`
 // passing along the `X-Custom-Header: Some Value` header.
-browser.navigateTo('/products', {
+browser.loadPage('/products', {
   headers: {
     'X-Custom-Header': 'Some-Value'
   }
@@ -147,7 +168,7 @@ browser.navigateTo('/products', {
 If the url is absolute,
 any methods that depend on the proxy
 (`getStatusCode` and `getHeaders`)
-will not work.
+will not work.  (e.g. `browser.loadPage`)
 This is a bug and will be fixed.
 
 ```js
@@ -183,7 +204,7 @@ allows the test to accept any order of query parameters.
 
 ```js
 browser
-  .navigateTo('/products?count=15&start=30')
+  .loadPage('/products?count=15&start=30')
   // This will return immediately even though the order of `count` and `start`
   // is reversed.
   .waitForUrl('/products', { start: 30, count: 15 });
@@ -666,10 +687,10 @@ Switch focus to the frame with name or id `id`.
 
 #### `browser.switchToDefaultWindow()`
 
-Switch focus to the window that was most recently referenced by `navigateTo`. Useful when interacting with popup windows.
+Switch focus to the window that was most recently referenced by `loadPage`. Useful when interacting with popup windows.
 
 ```js
-browser.navigateTo('/path');
+browser.loadPage('/path');
 browser.clickOn('#open-popup');
 browser.switchToWindow('popup1');
 browser.clickOn('#some-button-in-popup');

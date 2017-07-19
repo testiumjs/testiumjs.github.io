@@ -51,8 +51,8 @@ you'll get a [promise-chain interface](/api/wd/) powered by [`wd`](http://admc.i
 
 ```js
 browser
-  .navigateTo('/')
-  .getPageTitle().then(function(title) {
+  .loadPage('/')
+  .getPageTitle().then((title) => {
     assert.equal(title, 'Hello');
   });
 ```
@@ -60,7 +60,7 @@ browser
 This becomes much nicer when combined with [async/await](https://tc39.github.io/ecmascript-asyncawait/), e.g. using babel:
 
 ```js
-await browser.navigateTo('/');
+await browser.loadPage('/');
 assert.equal(await browser.getPageTitle(), 'Hello');
 ```
 
@@ -112,7 +112,7 @@ Testium will always pass the port as the environment variable `PORT` to your app
 Defaults to `0`.
 
 The final port (after resolving a port of `0`) determines the base url when navigating to urls paths.
-E.g. with a port of `8000`, `browser.navigateTo('/foo')` will load `http://127.0.0.1:8000/foo`.
+E.g. with a port of `8000`, `browser.loadPage('/foo')` will load `http://127.0.0.1:8000/foo`.
 
 #### `app.timeout`
 
