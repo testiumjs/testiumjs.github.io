@@ -91,14 +91,27 @@ assert.match(/^https:/, browser.getUrl());
 
 Returns the response status code for the current page.
 
-#### `browser.assertStatusCode(statusCode)`
+#### `browser.assertStatusCode(statusCode)` (deprecated)
 
 Asserts that the most recent response status code is `statusCode`.
+Note that you get this same functionality in `browser.loadPage` now.
 
 ```js
+// old
 browser
-  .loadPage('/products');
+  .navigateTo('/products');
   .assertStatusCode(200);
+
+browser
+  .navigateTo('/page-that-redirect');
+  .assertStatusCode(302);
+
+// new
+browser
+  .loadPage('/products'); // implies assertStatusCode(200)
+
+browser
+  .loadPage('/page-that-redirects', { expectedStatusCode: 302 });
 ```
 
 This is especially useful as a method to short circuit test failures.
