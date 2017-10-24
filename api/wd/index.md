@@ -350,6 +350,10 @@ Returns the element.
 
 Inverse of `assertElementExists`.
 
+#### `browser.assertElementsNumber(selector, number)`
+
+Asserts that `selector` matches exactly `number` elements.
+
 <a name="element"></a>
 
 #### `element.click()`
