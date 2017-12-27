@@ -35,6 +35,25 @@ These files record the internals of testium.
   but it will let you know if testium saw your command before the process failed.
   *Only available when not using phantomjs.*
 
+### Debugging Mocha Tests
+
+Sometimes stepping through tests can help better understand why and where things fail.
+To prepare do the following:
+
+1. Open `chrome://inspect` in Chrome.
+2. Click "Open dedicated DevTools for Node".
+3. Add a `debugger;` statement to a test file just before the line where you want to pause.
+
+Then it's possible to use the following command to start a test run with the debugger enabled:
+
+```bash
+node --inspect ./node_modules/.bin/_mocha test/integration
+```
+
+The above just runs the whole `test/integration` directory
+but it's also possible to run individual test files or pass additional mocha options.
+To run the tests in a specific browser, the command can be prefixed with `testium_browser=chrome` etc..
+
 ### Hanging Processes
 
 The process handling of testium is supposed to clean up after itself,
