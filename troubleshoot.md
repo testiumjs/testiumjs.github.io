@@ -6,45 +6,53 @@ category: intro
 
 ## Troubleshoot
 
+### Logs
+
 Sometimes your tests suite crashes in unexpected ways.
 When that happens, look at the logs under `test/log`.
 These files record the internals of testium.
 
-### application.log
+* `application.log`:
+  The output your app generated while running.
+* `phantomjs.log`:
+  This is where you can look at what happened from PhantomJS' perspective.
+  It can be helpful to see client side errors and logs.
+  *Only available when using phantomjs.*
+* `proxy.log`:
+  This is the log from the internal proxy server.
+  The proxy server is used to capture data not provided by the WebDriver spec itself.
+  This log shows incoming requests and outgoing responses.
+  If your tests hang, check this log for something that came in, but didn't go back out.
+* `selenium.log`:
+  This is the log from the selenium server itself.
+  It includes verbose ouput.
+  You can see what's happening inside selenium, which will be mostly unhelpful.
+  However, you can also see when requests come in and how they are handled, including responses.
+  *Only available when not using phantomjs.*
+* `webdriver.log`:
+  This is the log of which webdriver actions were performed.
+  It's not usually very helpful,
+  but it will let you know if testium saw your command before the process failed.
+  *Only available when not using phantomjs.*
 
-The output your app generated while running.
+### Debugging Mocha Tests
 
-### phantomjs.log
+Sometimes stepping through tests can help better understand why and where things fail.
+To prepare do the following:
 
-*Only when using phantomjs.*
+1. Open `chrome://inspect` in Chrome.
+2. Click "Open dedicated DevTools for Node".
+3. Add a `debugger;` statement to a test file just before the line where you want to pause.
 
-This is where you can look at what happened from PhantomJS' perspective.
-It can be helpful to see client side errors and logs.
+Then it's possible to use the following command to start a test run with the debugger enabled:
 
-### proxy.log
+```bash
+node --inspect ./node_modules/.bin/_mocha test/integration
+```
 
-This is the log from the internal proxy server.
-The proxy server is used to capture data not provided by the WebDriver spec itself.
-This log shows incoming requests and outgoing responses.
-
-If your tests hang, check this log for something that came in, but didn't go back out.
-
-### selenium.log
-
-*Only when not using phantomjs.*
-
-This is the log from the selenium server itself.
-It includes verbose ouput.
-You can see what's happening inside selenium, which will be mostly unhelpful.
-However, you can also see when requests come in and how they are handled, including responses.
-
-### webdriver.log
-
-*Only when not using phantomjs.*
-
-This is the log of which webdriver actions were performed.
-It's not usually very helpful,
-but it will let you know if testium saw your command before the process failed.
+The above just runs the whole `test/integration` directory
+but it's also possible to run individual test files or pass additional mocha options.
+To run the tests in a specific browser, the command can be prefixed with `testium_browser=chrome` etc..
 
 ### Hanging Processes
 
