@@ -220,6 +220,15 @@ Calls `clickOn()` on the Element found by the given `cssSelector`.
 browser.clickOn('.button');
 ```
 
+#### `browser.moveTo(cssSelector, xoffset, yoffset)`
+
+Move the mouse by an offset of the specificed element found by the given `cssSelector`.
+xoffset and y offset are optional.
+
+```js
+browser.moveTo('.button');
+```
+
 #### `browser.getElement(cssSelector)`
 
 Finds an element on the page using the `cssSelector` and returns an [Element](/api/wd/#element).  If it fails to find an element matching the selector, it will reject with an error.
