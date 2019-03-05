@@ -714,3 +714,52 @@ browser.switchToDefaultWindow();
 #### `browser.switchToWindow(name)`
 
 Switch focus to the window with name `name`.
+
+### Lighthouse for Accessibility
+
+Lighthouse audit requires headless-chrome and chromedriver to be present in the environment.
+Refer to [doc](https://pages.github.groupondev.com/InteractionTier/migrate/headless-chrome.html)
+on how to setup/migrate.
+
+By default the audit would run in responsive mode. To run in desktop mode,
+we need to pass chromeFlags through optional `flags` parameter as in the examples.
+
+#### `browser.runLighthouseAudit(flags, config)`
+
+Runs the lighthouse tests on the current page loaded by `loadPage` and resolves to a object
+containing score and list of error list.
+
+```js
+let lhResults;
+
+before(() =>
+  browser
+    .loadPage('/path')
+    .runLighthouseAudit()
+    // To run audit in desktop -
+    // .runLighthouseAudit({
+    //  chromeFlags: ['--disable-device-emulation']
+    // })
+    .then(audit => {lhResults = audit;})
+);
+
+it(`checking for score over 85`, () =>
+  assert.expect(`score is only ${lhResults.score}`, lhResults.isSuccess(85))
+);
+
+it(`There are no errors`, () =>
+  assert.expect(lhResults.errorString(), Object.keys(lhResults.errors()).length === 0)
+);
+```
+
+#### `browser.assertLighthouseScore(score, flags, config)`
+
+Runs the lighthouse tests on the current page loaded by `loadPage` and checks whether the
+lighthouse score is equal or higher than score provided. `flags` annd `config`
+optional parameters.
+
+```js
+browser
+  .loadPage('/path')
+  .assertLighthouseScore(90)
+```
