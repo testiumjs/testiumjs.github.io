@@ -527,6 +527,50 @@ browser.evaluate('hash', function getLocationProp(prop) {
 });
 ```
 
+#### `browser.evaluateAsync(args..., function(args...))`
+
+The executed script is required to return a Promise.
+
+Returns a Promise of the given function, invoked on the webdriver side (so you
+can not bind its `this` object or access context variables via lexical closure).
+If you provided `args`, testium will marshal them as JSON and pass them to
+the function in the given order.
+
+Note: NOT supported on PhantomJS
+
+##### Example: Fetch the data
+
+```js
+// Fetching data from the client
+browser.evaluateAsync(() => fetch('http://example.com/movies.json')
+    .then(response => response.json()));
+```
+
+or you can write it as an `async` function.
+
+```js
+// Fetching data from the client
+browser.evaluateAsync(async () => {
+  const movies = await fetch('http://example.com/movies.json')
+    .then(response => response.json());
+  return movies.filter(movie => movie.year > 2000);
+});
+```
+
+##### Example: Passing Arguments
+
+```js
+// Return the result after 1 sec
+browser.evaluateAsync(3, 6, (a, b) => {
+  // return a Promise
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(a * b);
+    }, 1000);
+  })
+});
+```
+
 ### Cookies
 
 Cookie objects have the following general structure:
