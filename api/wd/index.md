@@ -807,3 +807,22 @@ browser
   .loadPage('/path')
   .assertLighthouseScore(90)
 ```
+#### `browser.a11yAudit({ ignore, flags, config })`
+Runs the accessibility issues on the current page loaded by `loadPage`. `flags`, `config` and `ignore` are optional parameters.
+
+`ignore` is the ids of issues to ignore, a string array
+
+```js
+browser
+  .loadPage('/path')
+  .a11yAudit()
+  .then(issues => deepEqual([], issues))
+```
+
+```js
+browser
+  .loadPage('/path')
+  // ignore 'color-contrast' and 'meta-viewport'
+  .a11yAudit({ ignore: ['color-contrast', 'meta-viewport'] })
+  .then(issues => deepEqual([], issues))
+```
