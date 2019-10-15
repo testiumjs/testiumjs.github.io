@@ -34,20 +34,9 @@ and the grid will create a session for the best match it can find.
 
 Determines the interface for interacting with the browser.
 Testium will prepend the value with `testium-driver-` and treat the resulting string as an npm module name.
-The default value is "sync", so testium will try to load `testium-driver-sync`.
+The default value is "wd", so testium will try to load `testium-driver-wd` (the ["promise-chain" interface](/api/wd/) is powered by [`wd`](http://admc.io/wd/))
 
-The ["sync" interface](/api/sync/) uses blocking/synchronous HTTP calls:
-
-```js
-// This will block until the page is loaded
-browser.navigateTo('/');
-// All browser interactions are synchronous,
-// so we can just call the return value into any assertion library.
-assert.equal(browser.getPageTitle(), 'Hello');
-```
-
-When `driver` is set to "wd",
-you'll get a [promise-chain interface](/api/wd/) powered by [`wd`](http://admc.io/wd/):
+A simple example:
 
 ```js
 browser
@@ -129,16 +118,7 @@ Having too many mixed-in methods can make it hard to tell where a specific metho
 
 Each setting is an array of module names that will be resolved relative to the working directory. E.g. `./test/mixins/session.js` will be resolved to `${cwd}/test/mixins/session.js` and `mixins/session` may be resolved to `${cwd}/node_modules/mixins/session.js`.
 
-#### `mixins.assert` / `mixins.browser`
-
-**Synchronous Driver Only**
-
-Additional methods for `browser.assert.*` and `browser.*` respectively.
-See [section on custom methods](/api/sync/mixins.html) for how the files should be structured.
-
 #### `wd`
-
-**Promise Chain Driver Only**
 
 Additional methods for `browser.*`.
 See [section on custom methods](/api/wd/mixins.html) for how the files should be structured.

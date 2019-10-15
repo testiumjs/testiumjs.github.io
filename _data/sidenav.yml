@@ -10,29 +10,6 @@
   items:
   - url: /api/
     title: Core API
-  - url: /api/sync/
-    title: Synchronous
-    subitems:
-    - url: '/api/sync/#navigation'
-      title: Navigation
-    - url: '/api/sync/#elements'
-      title: 'Elements'
-    - url: '/api/sync/#forms'
-      title: 'Forms'
-    - url: '/api/sync/#evaluate'
-      title: 'Evaluate'
-    - url: '/api/sync/#cookies'
-      title: Cookies
-    - url: '/api/sync/#page'
-      title: Page
-    - url: '/api/sync/#alerts--confirms'
-      title: 'Alerts & Confirms'
-    - url: '/api/sync/#windows--frames'
-      title: 'Windows & Frames'
-    - url: '/api/sync/#pointer'
-      title: 'Pointer'
-    - url: '/api/sync/mixins.html'
-      title: 'Custom Methods'
   - url: /api/wd/
     title: Promise Chains
     subitems:

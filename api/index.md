@@ -103,10 +103,9 @@ Supported are `driver`, `keepCookies`, and `reuseSession`.
 #### `testium.browser`
 
 An instance of the requested driver implementation.
-The exact interface depends on the value of the [`driver`](/config.html#driver) setting:
+The exact interface depends on the value of the [`driver`](/config.html#driver) setting.
 
-* For "sync" see: [Synchronous Interface](/api/sync/)
-* For "wd" see: [Promise Chains](api/wd/)
+Currently, the recommended driver is "wd", see [Promise Chains](api/wd/)
 
 The browser always has an `appUrl` property which contains the base url of the application under test.
 
