@@ -2,8 +2,8 @@ title: Testium
 baseurl: ''
 sourceUrl: https://github.com/testiumjs/testiumjs.github.io
 sourceBranch: master
-projectUrl: https://github.com/groupon/testium
-copyright: "Copyright © 2015 Groupon, Inc. All Rights Reserved."
+projectUrl: https://github.com/testiumjs/testium-core
+copyright: "Copyright © 2015-2019 Groupon, Inc. All Rights Reserved."
 
 exclude:
 - README.md
