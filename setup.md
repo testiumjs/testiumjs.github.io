@@ -67,7 +67,7 @@ describe('The homepage', () => {
 You can just run the file above using `mocha`
 and testium will handle everything for you:
 
-* Launch the app and a headless chrome.
+* Launch the app and headless chrome.
 * Wait for the app to listen.
 * Clear cookies & reset the window to a well-known size.
 * Close the webdriver session and tear down your app & headless chrome.
