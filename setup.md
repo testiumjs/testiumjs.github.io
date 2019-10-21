@@ -47,7 +47,8 @@ const assert = require('assert');
 const { browser } = require('testium-mocha');
 
 describe('The homepage', () => {
-  before(browser.beforeHook({ driver: 'wd' }));
+  // by default testium will use the `wd` driver
+  before(browser.beforeHook());
 
   before('Load homepage', () =>
     browser.loadPage('/')
