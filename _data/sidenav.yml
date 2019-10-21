@@ -31,3 +31,5 @@
       title: 'Windows & Frames'
     - url: '/api/wd/mixins.html'
       title: 'Custom Methods'
+  - url: /api/sync/
+    title: (Deprecated) Synchronous
