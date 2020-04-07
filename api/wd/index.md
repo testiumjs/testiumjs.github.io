@@ -18,7 +18,7 @@ This also implies that the returned promises have to be passed to the test runne
 Since all return values are promises,
 the examples assume that `assert` refers to a library that is promise-aware like [`assertive-as-promised`](https://github.com/groupon/assertive-as-promised).
 
-Another thing to keep in mind is to always use `browser.loadPage` (or `browser.navigateTo`) and never `browser.get` to load a page.
+Another thing to keep in mind is to always use `browser.loadPage` and never `browser.get` to load a page.
 The reason is that `browser.loadPage` will properly capture status code and headers whereas `browser.get` will not.
 This is different from using `wd` directly because capturing status codes is not a native `wd` feature.
 
@@ -98,7 +98,7 @@ Returns a [WHATWG URL instance](https://nodejs.org/dist/latest-v13.x/docs/api/ur
 
 Returns the response status code for the current page.
 
-### browser.loadPage(url: string[, options?: loadPageOpts]): Promise<void>
+### browser.loadPage(url: string, options?: loadPageOpts): Promise<void>
 
 Navigates the browser to the specified relative or absolute url.
 
