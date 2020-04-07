@@ -2,11 +2,11 @@
 layout: default
 ---
 <div class="row">
-  <div class="two columns">{% include sidenav.html %}</div>
-  <div class="ten columns" style="padding-top: 15px">
+  <aside class="two columns" id="sidebar">{% include sidenav.html %}</aside>
+  <main class="ten columns" id="content" style="padding-top: 15px">
     <a href="{{ site.sourceUrl }}/edit/{{ site.sourceBranch }}/{% if page.relative_path %}{{ page.relative_path }}{% else %}{{page.path}}{% endif %}" class="pull-right gh-edit" style="margin-top: 31px;">
       Edit on GitHub
     </a>
     {{ content }}
-  </div>
+  </main>
 </div>

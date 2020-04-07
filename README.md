@@ -2,20 +2,45 @@
 
 ## Local Setup
 
+On MacOS >= High Sierra, it is recommended that you use a ruby version manager like `rbenv` (you will not have write permissions to the gem installation folder for system ruby):
+
+```bash
+$ brew install rbenv
+```
+
+Ensure you add the following line to your `.bashrc` or `.zshrc` file:
+
+```
+eval "$(rbenv init -)"
+```
+
+The following gives you the ability to use rbenv installed version 2.6.3 of ruby in your shell by typing:
+
+```bash
+$ rbenv install 2.6.3
+$ rbenv shell 2.6.3
+```
+
+Install the bundler gem:
+
+```bash
+$ gem install bundler
+```
+
 Run the following to install jekyll:
 
-~~~bash
+```bash
 bundle install
-~~~
+```
 
 Then start the development server via:
 
-~~~bash
+```bash
 bundle exec jekyll server
-~~~
+```
 
 To update the deployed website,
-just push to the master branch.
+just create a pull request against the master branch.
 
 
 ## Creating Pages
