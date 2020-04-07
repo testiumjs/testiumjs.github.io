@@ -34,10 +34,17 @@ This is **not** a promise but a plain JavaScript object.
 before(function requiresAlerts() {
   // Skip the current test suite unless the browser can work with alerts
   if (!browser.capabilities.handlesAlerts) this.skip();
+
+  // skip when not Chrome browser
+  if (browser.capabilities.browserName !== 'chrome') this.skip();
 });
 ```
 
-### browser.getConsoleLogs([logLevel: string]): Promise<ConsoleLogObj[]>>
+### browser.sessionCapabilities(): Promise<browser.capabilities>
+
+Returns `browser.capabilities`. 
+
+### browser.getConsoleLogs([logLevel: string]): Promise<ConsoleLogObj[]>
 
 Returns all log events for `logLevel` `all`(default) `log`,`warn`, `error`, `debug` since the last time this method was called.
 **Warning:** Each browser implements this differently against the WebDriver spec.
@@ -57,7 +64,7 @@ Returns screenshot as a base64 encoded PNG.
 Returns the value of the response header with the provided name.
 Header names should be provided in lowercase.
 
-### browser.getHeaders(): Promise<Record<string, string>>
+### browser.getHeaders(): Promise<Record<string, string\>\>
 
 Returns all response headers for the current page as a plain object.
 All keys in the object will be lowercase,
@@ -91,34 +98,41 @@ Returns a [WHATWG URL instance](https://nodejs.org/dist/latest-v13.x/docs/api/ur
 
 Returns the response status code for the current page.
 
-### browser.assertStatusCode(statusCode: number): Promise<void> (deprecated)
+### browser.loadPage(url: string[, options?: loadPageOpts]): Promise<void>
 
-Asserts that the most recent response status code is `statusCode`.
-Note that you get this same functionality in `browser.loadPage` now.
+Navigates the browser to the specified relative or absolute url.
 
 ```js
-// old
-browser
-  .navigateTo('/products')
-  .assertStatusCode(200);
-
-browser
-  .navigateTo('/page-that-redirect')
-  .assertStatusCode(302);
-
-// new
 browser
   .loadPage('/products'); // implies assertStatusCode(200)
-
-browser
-  .loadPage('/page-that-redirects', { expectedStatusCode: 302 });
 ```
 
-This is especially useful as a method to short circuit test failures.
+The following `loadPageOpts` options are supported:
+
+* `query`: An object with additional query parameters.
+* `headers`: An object with headers to inject.
+* `expectedStatusCode`: Defaults to `200`, can be one of:
+  * An integer status code that the response should equal
+  * A RegExp that the status code (as a string) should match
+  * A Function which takes the status code and returns `true` or `false` if it is acceptable
+
+#### Example: Expecting a 302 status code
+
+```js
+browser
+  .loadPage('/page-that-redirects', { expectedStatusCode: 302 });
+```  
+  
+#### Example: Running `loadPage` in Mocha `before` hook
+
+To speed up your tests and short circuit test failures, run `loadPage` in the Mocha `before` hook. 
+
+**_Note that no screenshot nor HTML page will be created in case there is an error in Mocha hooks._**
 
 ```js
 describe('products', () => {
   before(browser.beforeHook());
+
   before(() =>
     browser.loadPage('/products')
   );
@@ -129,25 +143,6 @@ describe('products', () => {
 });
 ```
 
-### browser.loadPage(url: string[, options?: loadPageOpts]): Promise<void>
-
-Navigates the browser to the specified relative or absolute url.
-The following `loadPageOpts` options are supported:
-
-* `query`: An object with additional query parameters.
-* `headers`: An object with headers to inject.
-* `expectedStatusCode`: Defaults to `200`, can be one of:
-  * An integer status code that the response should equal
-  * A RegExp that the status code (as a string) should match
-  * A Function which takes the status code and returns `true` or `false` if it is acceptable
-
-### browser.navigateTo(url: string, options?: navigateOpts): Promise<void> (deprecated)
-
-This does the same thing as `browser.loadPage()`, but:
-
-1. Doesn't support the `expectedStatusCode` option in `navigateOpts`
-1. Doesn't default to asserting status code 200
-
 #### Example: Relative URL with Headers
 
 If relative, the root is assumed to be `http://127.0.0.1:#{app.port}`,
@@ -156,25 +151,20 @@ where `app.port` refers to [the config option](/config.html#app-port).
 ```js
 // Navigates to `http://127.0.0.1:${app.port}/products`
 // passing along the `X-Custom-Header: Some Value` header.
-browser.loadPage('/products', {
-  headers: {
-    'X-Custom-Header': 'Some-Value'
-  }
-});
+browser
+  .loadPage('/products', { headers: { 'x-custom-header': 'Some-Value' } });
 ```
 
 #### Example: Absolute URL
 
-If the url is absolute,
-any methods that depend on the proxy
-(`getStatusCode` and `getHeaders`)
-will not work.  (e.g. `browser.loadPage`)
+If the url is absolute, any methods that depend on the proxy (`getStatusCode` and `getHeaders`)
+will not work.
 This is a bug and will be fixed.
 
 ```js
 browser
   // Navigates to https://www.google.com/?q=testium+api
-  .navigateTo('http://www.google.com', { query: { q: 'testium api'} })
+  .loadPage('http://www.google.com', { query: { q: 'testium api'} })
   // But this will fail because the URL was absolute:
   .getStatusCode();
 ```
@@ -376,6 +366,18 @@ Asserts that `selector` matches element numbers:
 - `max`: at most `max` amount of elements
 - `equal`:  exactly `equal` amount of elements
 
+
+
+#### `browser.assertImgLoaded(cssSelector: string): Promise<Element>`
+<span class="new-in">Added in: testium-driver-wd v3.2.0</span>
+
+**Requirement:** Chromedriver
+
+Asserts that the image element matching `cssSelector` has both loaded and been decoded successfully.	
+
+```js	
+browser.assertImgLoaded('#logo');	
+```
 
 <a name="element"></a>
 ### element.click(): Node`
@@ -638,22 +640,6 @@ browser.setCookieValues({
 
 This is the built-in `wd` `setCookie()` function, and applies none of the
 defaults above, and is only recommended for specific advanced uses.
-
-### browser.setCookies([Cookie])` **[DEPRECATED]**
-
-Sets all cookies in the array.
-
-```js
-cookies = [
-  { name: 'userId', value: '3' },
-  { name: 'dismissedPopup', value: 'true' },
-];
-browser.setCookies(cookies);
-```
-
-This function calls `setCookie()`, and applies none of the useful testium
-defaults described above; it is now recommended that you instead use
-`setCookieValues()`
 
 ### browser.getCookie(name: string): Promise<string|undefined>
 
