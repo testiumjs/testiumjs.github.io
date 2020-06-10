@@ -29,16 +29,6 @@ When called, `this` will refer to the `browser`.
 
 Edit (or create) `.testiumrc` in the project directory:
 
-```ini
-; [other settings...]
-
-[mixins]
-; This path will be resolved relative to the project directory
-wd[] = ./test/mixins/login.js
-```
-
-If you prefer JSON for `.testiumrc`:
-
 ```json
 {
   "mixins": {
@@ -53,9 +43,7 @@ In test files you can now start using `browser.login`:
 
 ```js
 // ...
-before(() => browser.login());
-
-before(() => browser.loadPage('/account'));
+before(() => browser.login().loadPage('/account'));
 
 it("shows the test user's account", () => { /* ... */ });
 ```
