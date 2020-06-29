@@ -15,7 +15,7 @@ since most test runners (e.g. `mocha`) have their own argv handling.
 #### `browser`
 
 The name of the browser to use.
-If no browser is specified, testium will assume it's `'phantomjs'`.
+If no browser is specified, Testium will assume it's `'phantomjs'`.
 Typical values are `phantomjs`, `chrome`, or `firefox`.
 The latter two depend on which browsers are installed on your computer.
 
@@ -34,34 +34,35 @@ and the grid will create a session for the best match it can find.
 
 Determines the interface for interacting with the browser.
 Testium will prepend the value with `testium-driver-` and treat the resulting string as an npm module name.
-The default value is "wd", so testium will try to load `testium-driver-wd` (the ["promise-chain" interface](/api/wd/) is powered by [`wd`](http://admc.io/wd/))
+The default value is "wd", so Testium will try to load `testium-driver-wd` (the ["promise-chain" interface](/api/wd/) is powered by [`wd`](http://admc.io/wd/))
 
 A simple example:
 
 ```js
-browser
+const title = await browser
   .loadPage('/')
-  .getPageTitle().then((title) => {
-    assert.equal(title, 'Hello');
-  });
+  .getPageTitle();
+
+assert.equal(title, 'Hello');
 ```
 
 This becomes much nicer when combined with [async/await](https://tc39.github.io/ecmascript-asyncawait/), e.g. using babel:
 
 ```js
 await browser.loadPage('/');
+
 assert.equal(await browser.getPageTitle(), 'Hello');
 ```
 
 #### `launch`
 
-Set this to `true` if you want testium to handle starting the app during initialization and stopping it at the end.
+Set this to `true` if you want Testium to handle starting the app during initialization and stopping it at the end.
 This is not enabled by default.
 
 #### `launchEnv`
 
 The `NODE_ENV` to use when launching the app.
-By default testium uses `NODE_ENV=test`.
+By default, Testium uses `NODE_ENV=test`.
 
 #### `logDirectory`
 
@@ -83,7 +84,7 @@ Testium will create the following files in this directory:
 
 Automatically generated screenshots like the ones created on failing mocha tests will be placed in this directory.
 Directory paths are relative to the working directory.
-By default testium will use `test/log/failed_screenshots`.
+By default, Testium will use `test/log/failed_screenshots`.
 
 ### app
 
@@ -91,12 +92,12 @@ By default testium will use `test/log/failed_screenshots`.
 
 The command to use when launching the app.
 This is ignored unless `launch` is enabled.
-If no command is provided, testium will parse `package.json` to simulate the behavior of `npm start`.
+If no command is provided, Testium will parse `package.json` to simulate the behavior of `npm start`.
 
 #### `app.port`
 
 The port the app is listening on.
-Setting the port to `0` tells testium to select a random available port.
+Setting the port to `0` tells Testium to select a random available port.
 Testium will always pass the port as the environment variable `PORT` to your app.
 Defaults to `0`.
 
@@ -105,9 +106,9 @@ E.g. with a port of `8000`, `browser.loadPage('/foo')` will load `http://127.0.0
 
 #### `app.timeout`
 
-How long testium should wait for the app to listen.
+How long Testium should wait for the app to listen.
 Expects a time in milliseconds.
-By default testium will wait 30 seconds.
+By default, Testium will wait 30 seconds.
 
 ### mixins
 
@@ -146,18 +147,18 @@ Specifies the test-case timeout. The default value is 20 seconds.
 
 Command to start PhantomJS.
 Change this if you don't have PhantomJS in your `$PATH`.
-By default this is just `phantomjs`.
+By default, this is just `phantomjs`.
 
 #### `phantomjs.timeout`
 
 How long to wait for phantomjs to listen in milliseconds.
-By default testium will wait 6 seconds.
+By default, Testium will wait 6 seconds.
 
 ### proxy
 
-Controls the behavior of testium's HTTP proxy.
+Controls the behavior of Testium's HTTP proxy.
 Testium will send all requests through a local proxy process.
-This allows testium to provide some additional features:
+This allows Testium to provide some additional features:
 
 * Capture HTTP status codes and -headers.
 * Inject additional headers to outgoing requests.
@@ -170,7 +171,7 @@ This allows testium to provide some additional features:
 #### `proxy.port`
 
 The port to use for proxying.
-If the port is set to 0, testium will select a random available port.
+If the port is set to 0, Testium will select a random available port.
 The default is 4445.
 
 #### `proxy.host`
@@ -178,7 +179,7 @@ The default is 4445.
 If you wish to run your browser on a different host (see [`selenium.serverUrl`](config.html#seleniumserverurl)), this will default to the output of `hostname -f` in order to let the browser know how to reach this proxy running on localhost - if this is not correct, set this to a hostname that can be reached by the selenium browser.  If this host is not reachable directly by the selenium host (due to firewall, NAT, VPN, CI container, etc.), see `proxy.tunnel.host`.
 
 #### `proxy.tunnel.host`
-If you are using `driver = wd`, you may set this to open an SSH tunnel from a random port on a third party host thru to `proxy.port` on localhost by setting `proxy.tunnel.host` to a hostname which the testium-running user has permission to ssh to with no password (via `$SSH_AUTH_SOCK` agent or unencrypted private keys in `~/.ssh`).  If this hostname is not the same as the hostname that selenium will need to contact (e.g. you have to ssh to `foo-internal.example.com`, but selenium will contact the same host as `foo-external.example.com`), set `proxy.host` to the latter - otherwise you can leave `proxy.host` unset and it will default to the value of `proxy.tunnel.host`.
+If you are using `driver = wd`, you may set this to open an SSH tunnel from a random port on a third party host thru to `proxy.port` on localhost by setting `proxy.tunnel.host` to a hostname which the Testium-running user has permission to ssh to with no password (via `$SSH_AUTH_SOCK` agent or unencrypted private keys in `~/.ssh`).  If this hostname is not the same as the hostname that selenium will need to contact (e.g. you have to ssh to `foo-internal.example.com`, but selenium will contact the same host as `foo-external.example.com`), set `proxy.host` to the latter - otherwise you can leave `proxy.host` unset and it will default to the value of `proxy.tunnel.host`.
 
 You **must** set `GatewayPorts yes` in `/etc/ssh/sshd_config` on the tunnel host to allow it to accept connections to proxy.
 
@@ -195,8 +196,8 @@ If have already set up your own tunnel from a port on `proxy.tunnel.host` to `pr
 
 #### `repl.module`
 
-Module to use for the testium repl.
-By default this is node's built-in `repl` module.
+Module to use for the Testium repl.
+By default, this is node's built-in `repl` module.
 If you want to use coffee-script in the repl, use `coffee-script/repl`.
 
 ### selenium
@@ -211,17 +212,17 @@ This is enabled by default.
 #### `selenium.chromedriver`
 
 Path to the `chromedriver` binary.
-If not provided, testium will download it automatically on demand.
+If not provided, Testium will download it automatically on demand.
 
 #### `selenium.jar`
 
 Path to the selenium standalone jar.
-If not provided, testium will download it automatically on demand.
+If not provided, Testium will download it automatically on demand.
 
 #### `selenium.serverUrl`
 
 Allows to provide an existing selenium server.
-If the `serverUrl` is set, testium will not try to launch its own instance of selenium.
+If the `serverUrl` is set, Testium will not try to launch its own instance of selenium.
 
 #### `selenium.timeout`
 

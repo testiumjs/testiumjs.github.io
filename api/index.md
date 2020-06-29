@@ -13,10 +13,12 @@ The first (and older) way is to use the `browser` property on the test context:
 ```js
 var injectBrowser = require('testium-mocha');
 
-before(injectBrowser());
+describe('test-suite' ,() => {
+  before(injectBrowser());
 
-it('has a browser', function() {
-  return this.browser.navigateTo('/');
+  it('has a browser', function() {
+    return this.browser.navigateTo('/');
+  });
 });
 ```
 
@@ -24,11 +26,13 @@ The problem is that this works very poorly with ES6 arrow functions since it dep
 The more ES6-friendly interface is:
 
 ```js
-var browser = require('testium-mocha').browser;
+const { browser } = require('testium-mocha');
 
-before(browser.beforeHook());
+describe('test-suite' ,() => {
+  before(browser.beforeHook());
 
-it('is the browser', () => browser.navigateTo('/'));
+  it('is the browser', () => browser.loadPage('/'));
+});
 ```
 
 **Warning:** Testium switches out the prototype of `browser` to turn the browser export "magically" into a functioning object after successful initialization.
@@ -37,7 +41,7 @@ Trying to call anything but `beforeHook` before the hook finished will not work 
 #### `injectBrowser(options = {})`
 
 Returns a [mocha before hook](http://mochajs.org/#hooks).
-The hook will initialize testium (if it didn't happen already)
+The hook will initialize Testium (if it didn't happen already)
 and apply a number of changes to the current test suite:
 
 * Intercept errors and automatically save screenshots.
@@ -59,32 +63,34 @@ this object will be a proxy to [`testium.browser`](/api/#testium-browser).
 
 ### Low-Level API: [`testium-core`](https://www.npmjs.com/package/testium-core)
 
-Most of the time it won't be neccessary to interact with `testium-core` directly.
+Most of the time it won't be necessary to interact with `testium-core` directly.
 But when implementing a new kind of `browser` interface or integrating with a different test framework,
 the information below might be helpful.
 
 #### `getBrowser(options)`
 
-Convenience method that calls [`getTestium`](/api/#gettestium-options) and then returns the [`browser` property](/api/#testium-browser).
+Convenience method that calls [`getTestium`](/api/#gettestium-options) and 
+then returns the [`browser` property](/api/#testium-browser).
 
 #### `getConfig()`
 
-Retrieves the config testium will use.
+Retrieves the config Testium will use.
 This can be useful for selectively disabling tests in certain browsers:
 
 ```js
 var getConfig = require('testium-core').getConfig;
 
-describe('Feature that only works in real browsers', function() {
+describe('Feature that only works in real browsers', () => {
   if (getConfig().get('browser') === 'phantomjs') {
-    return xit('Not supported in PhantomJS');
+    return it.skip('Not supported in PhantomJS');
   }
 
   // Actual test code.
 });
 ```
 
-The advantage over [`testium.config`](/api/#testium-config) is that `getConfig()` returns the value immediately without having to wait for the init to finish.
+The advantage over [`testium.config`](/api/#testium-config) is that `getConfig()` 
+returns the value immediately without having to wait for the init to finish.
 
 #### `getTestium(options)`
 
