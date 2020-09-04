@@ -39,19 +39,9 @@ The default value is "wd", so Testium will try to load `testium-driver-wd` (the 
 A simple example:
 
 ```js
-const title = await browser
-  .loadPage('/')
-  .getPageTitle();
-
-assert.equal(title, 'Hello');
-```
-
-This becomes much nicer when combined with [async/await](https://tc39.github.io/ecmascript-asyncawait/), e.g. using babel:
-
-```js
 await browser.loadPage('/');
 
-assert.equal(await browser.getPageTitle(), 'Hello');
+assert.strictEqual(await browser.getPageTitle(), 'Hello');
 ```
 
 #### `launch`

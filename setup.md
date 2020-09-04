@@ -30,7 +30,7 @@ npm install --save-dev chromedriver
 
 **NOTE:** 
 
-All `chromedriver` versions have a specific min required Chrome version. 
+All `chromedriver` versions have a specific minimum required Chrome version. 
 If your local Chrome browser updates the version, you likely have to update 
 your `chromedriver` install as well.
 
@@ -52,7 +52,6 @@ but [INI is supported](https://en.wikipedia.org/wiki/INI_file) as well.
     "headless": true
   },
 }
-
 ```
 
 `launch` tells Testium to start your application before running the test. Testium will automatically 
@@ -69,9 +68,7 @@ describe('The homepage', () => {
   // by default testium will use the `wd` driver
   before(browser.beforeHook());
 
-  before('Load homepage', () =>
-    browser.loadPage('/')
-  );
+  before('Load homepage', () => browser.loadPage('/'));
 
   it('shows the right title', async () => {
     const title = await browser.getPageTitle()

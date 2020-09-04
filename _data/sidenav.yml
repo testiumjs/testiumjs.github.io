@@ -29,7 +29,7 @@
       title: 'Alerts & Confirms'
     - url: '/api/wd/#windows--frames'
       title: 'Windows & Frames'
+    - url: '/api/wd/#lighthouse--puppeteer'
+      title: 'Lighthouse & Puppeteer'
     - url: '/api/wd/mixins.html'
       title: 'Custom Methods'
-  - url: /api/sync/
-    title: (Deprecated) Synchronous

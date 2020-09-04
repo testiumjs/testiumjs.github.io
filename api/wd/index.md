@@ -14,9 +14,8 @@ This page omits many things that are already part of `wd`.
 All methods return a Promise that can be chained.
 So whenever it says "returns a string", read "returns the promise of a string".
 The `wd` docs have [more examples for what that means](https://github.com/admc/wd/#q-promises--chaining).
-This also implies that the returned promises have to be passed to the test runner (e.g. mocha), either by using async functions and `await` or by returning the promise.
-Since all return values are promises,
-the examples assume that `assert` refers to a library that is promise-aware like [`assertive-as-promised`](https://github.com/groupon/assertive-as-promised).
+This also implies that the returned promises have to be passed to the test runner (e.g. mocha), 
+either by using async functions and `await` or by returning the promise.
 
 Another thing to keep in mind is to always use `browser.loadPage` and never `browser.get` to load a page.
 The reason is that `browser.loadPage` will properly capture status code and headers whereas `browser.get` will not.
@@ -40,7 +39,7 @@ before(function requiresAlerts() {
 });
 ```
 
-### browser.sessionCapabilities(): Promise<browser.capabilities>
+### browser.sessionCapabilities(): Promise\<browser.capabilities\>
 
 Returns `browser.capabilities`. 
 
@@ -48,7 +47,7 @@ Returns `browser.capabilities`.
 const capabilities = await browser.sessionCapabilities()
 ```
 
-### browser.getConsoleLogs([logLevel: string]): Promise<ConsoleLogObj[]>
+### browser.getConsoleLogs([logLevel: string]): Promise\<ConsoleLogObj[]\>
 
 Returns all log events for `logLevel` `all`(default) `log`,`warn`, `error`, `debug` since the last time this method was called.
 
@@ -66,13 +65,13 @@ const errorLogs = await browser.getConsoleLogs('error'); // some errors exists
 const emptyErrors = await browser.getConsoleLogs('error'); 
 ``` 
 
-### browser.getScreenshot(): Promise<string>
+### browser.getScreenshot(): Promise\<string\>
 
 Returns screenshot as a base64 encoded PNG.
 
 ## Navigation
 
-### browser.getHeader(name: string): Promise<string>
+### browser.getHeader(name: string): Promise\<string\>
 
 Returns the value of the response header with the provided name.
 Header names should be provided in lowercase.
@@ -81,7 +80,7 @@ Header names should be provided in lowercase.
 const country = await browser.loadPage('/').getHeader('x-country')
 ```
 
-### browser.getHeaders(): Promise<Record<string, string>>
+### browser.getHeaders(): Promise\<Record\<string, string\>\>
 
 Returns all response headers for the current page as a plain object.
 All keys in the object will be lowercase,
@@ -91,7 +90,7 @@ e.g. `content-type` instead of `Content-Type`.
 const headers = await browser.loadPage('/').getHeaders()
 ```
 
-### browser.getPath(): Promise<string>
+### browser.getPath(): Promise\<string\>
 
 Returns the current path and query of the page,
 e.g. `/some/route?foo=bar`.
@@ -101,7 +100,7 @@ e.g. `/some/route?foo=bar`.
 e.g. `/some/route?foo=bar#hash` 
 
 
-### browser.getUrl(): Promise<string>
+### browser.getUrl(): Promise\<string\>
 
 Returns the current absolute url of the page,
 e.g. `http://localhost:1234/some/route`.
@@ -109,10 +108,10 @@ e.g. `http://localhost:1234/some/route`.
 ```js
 const url = await browser.getUrl();
 
-assert.match(/^https:/, url);
+assert.ok(/^https:/.test(url));
 ```
 
-### browser.getUrlObject(): Promise<URL>
+### browser.getUrlObject(): Promise\<URLObject\>
 <span class="new-in">Added in: Testium-driver-wd v3.1.0</span>
 
 Returns a [WHATWG URL instance](https://nodejs.org/dist/latest-v13.x/docs/api/url.html#url_the_whatwg_url_api) of the current url.
@@ -124,7 +123,7 @@ const urlObj = browser
   .getUrlObject()
 ```
 
-### browser.getStatusCode(): Promise<number>
+### browser.getStatusCode(): Promise\<number\>
 
 Returns the response status code for the current page.
 
@@ -132,7 +131,7 @@ Returns the response status code for the current page.
 const statusCode = await browser.loadPage().getStatusCode();
 ```
 
-### browser.loadPage(url: string, options?: loadPageOpts): Promise<void>
+### browser.loadPage(url: string, options?: loadPageOpts): Promise\<void\>
 
 Navigates the browser to the specified relative or absolute url.
 
@@ -154,14 +153,14 @@ The following `loadPageOpts` options are supported:
 
 ```js
 await browser
-  .loadPage('/page-that-redirects', { expectedStatusCode: 302, quer: { foo: 'bar' } });
+  .loadPage('/page-that-redirects', { expectedStatusCode: 302, query: { foo: 'bar' } });
 ```  
   
 #### Example: Running `loadPage` in Mocha `before` hook
 
 To speed up your tests and short circuit test failures, run `loadPage` in the Mocha `before` hook. 
 
-**_Note: No screenshot nor HTML page will be created in case there is an error in Mocha hooks._**
+**_Note: Neither screenshot nor HTML page will be created in case there is an error in Mocha hooks._**
 
 ```js
 describe('products', () => {
@@ -203,7 +202,7 @@ await browser
   .getStatusCode();
 ```
 
-### browser.refresh(): Promise<void>
+### browser.refresh(): Promise\<void\>
 
 Refresh the current page.
 
@@ -214,14 +213,14 @@ await browser
   .refresh();            // reload the current page
 ```
 
-### browser.waitForPath(path: string|RegExp, timeout=5000: number): Promise<void>
+### browser.waitForPath(path: string|RegExp, timeout=5000: number): Promise\<void\>
 
 Waits `timeout` ms for the browser to be at the specified `path`.
 ```js
 await browser.waitForPath('/foo');
 await browser.waitForPath('/foo', 10000); // with increased timeout
 ```
-### browser.waitForUrl(url: string|RegExp, query?: Record<string, string|number>, timeout=5000: number): Promise<void>
+### browser.waitForUrl(url: string|RegExp, query?: Record\<string, string|number\>, timeout=5000: number): Promise\<void\>
 
 Waits `timeout` ms for the browser to be at the specified `url`.
 
@@ -240,7 +239,7 @@ browser
 
 ## Elements
 
-### browser.clickOn(cssSelector: string): Promise<void>
+### browser.clickOn(cssSelector: string): Promise\<void\>
 
 Calls native `click()` on the Element found by the given `cssSelector`.
 
@@ -253,7 +252,7 @@ The selector passed into `clickOn()` must match **only one unique** element in t
 Otherwise `onClick()` will throw. Use `clickOnAll()` for multiple elements.
 
 
-### browser.clickOnAll(cssSelector: string): Promise<void>
+### browser.clickOnAll(cssSelector: string): Promise\<void\>
 <span class="new-in">Added in: Testium-driver-wd v3.0.0</span>
 
 Calls native `click()` on each Element found by the given `cssSelector`.
@@ -262,7 +261,7 @@ Calls native `click()` on each Element found by the given `cssSelector`.
 await browser.clickOnAll('.foo, .bar, .elm');
 ```
 
-### browser.moveTo(cssSelector: string, xOffset?: number, yOffset?: number): Promise<void>
+### browser.moveTo(cssSelector: string, xOffset?: number, yOffset?: number): Promise\<void\>
 
 Move the mouse by an offset of the specified element found by the given `cssSelector`.
 `xOffset` and `yOffset` are optional.
@@ -271,9 +270,10 @@ Move the mouse by an offset of the specified element found by the given `cssSele
 await browser.moveTo('.button');
 ```
 
-### browser.getElement(cssSelector: string): Promise<Element>
+### browser.getElement(cssSelector: string): Promise\<Element\>
 
-Finds an element on the page using the `cssSelector` and returns an [Element](/api/wd/#element).  If it fails to find an element matching the selector, it will reject with an error.
+Finds an element on the page using the `cssSelector` and returns an [Element](/api/wd/#element). 
+If it fails to find an element matching the selector, it will reject with an error.
 
 ```js
 const button = await browser.getElement('.button');
@@ -283,49 +283,52 @@ await button.isDisplayed();
 await browser.getElement('.button').isDisplayed();
 ```
 
-### browser.getElementOrNull(cssSelector: string): Promise<Element|null>
+### browser.getElementOrNull(cssSelector: string): Promise\<Element|null\>
 
 Finds an element on the page using the `cssSelector`. Returns `null` if the element wasn't found.
 
 ```js
 const button = await browser.getElementOrNull('.button1,.button2')
 if (button) {
-  assert.equal('OK', await button.text());
+  assert.strictEqual(await button.text(), 'OK');
 }
 ```
 
-### browser.getElements(cssSelector: string): Promise<Element[]>
+### browser.getElements(cssSelector: string): Promise\<Element[]\>
 
 Finds all elements on the page using the `cssSelector` and returns an array of Elements.
 
-### browser.waitForElementDisplayed(cssSelector: string, timeout=3000: number): Promise<void>
+### browser.waitForElementDisplayed(cssSelector: string, timeout=3000: number): Promise\<void\>
 
-Waits for the element at `cssSelector` to exist and be visible, then returns the [Element](/api/wd/#element). Times out after `timeout` ms.
+Waits for the element at `cssSelector` to exist and be visible, then returns the [Element](/api/wd/#element). 
+Times out after `timeout` ms.
 
 ```js
 await browser.waitForElementDisplayed('.foo');
 await browser.waitForElementDisplayed('.bar', 5000);
 ```
 
-### browser.waitForElementNotDisplayed(cssSelector: string, timeout=3000: number): Promise<void>
+### browser.waitForElementNotDisplayed(cssSelector: string, timeout=3000: number): Promise\<void\>
 
-Waits for the element at `cssSelector` to exist and not be visible, then returns the [Element](/api/wd/#element). Times out after `timeout` ms.
+Waits for the element at `cssSelector` to exist and not be visible, then returns the [Element](/api/wd/#element). 
+Times out after `timeout` ms.
 
 ```js
 await browser.waitForElementNotDisplayed('.foo');
 await browser.waitForElementNotDisplayed('.bar', 5000);
 ```
 
-### browser.waitForElementExist(cssSelector: string, timeout=3000: number): Promise<void>
+### browser.waitForElementExist(cssSelector: string, timeout=3000: number): Promise\<void\>
 
-Waits for the element at `cssSelector` to exist, then returns the [Element](/api/wd/#element). Times out after `timeout` ms. Visibility is not considered.
+Waits for the element at `cssSelector` to exist, then returns the [Element](/api/wd/#element). 
+Times out after `timeout` ms. Visibility is not considered.
 
 ```js
 await browser.waitForElementExist('.foo');
 await browser.waitForElementExist('.bar', 5000);
 ```
 
-### browser.waitForElementNotExist(cssSelector: string, timeout=3000: number): Promise<void>
+### browser.waitForElementNotExist(cssSelector: string, timeout=3000: number): Promise\<void\>
 
 Waits for the element at `cssSelector` to not exist, then returns `null`. Times out after `timeout` ms.
 
@@ -333,7 +336,7 @@ Waits for the element at `cssSelector` to not exist, then returns `null`. Times 
 await browser.waitForElementNotExist('.foo');
 ```
 
-### browser.assertElementHasText(selector: string, textOrRegex: string|RegExp): Promise<Element>
+### browser.assertElementHasText(selector: string, textOrRegex: string|RegExp): Promise\<Element\>
 
 Asserts that the element at `selector` contains `textOrRegex`.
 Returns the element.
@@ -344,10 +347,10 @@ or that node does not contain the given `textOrRegex`.
 ```js
 await browser.assertElementHasText('.user-name', 'someone');
 // is the same as:
-assert.equal('someone', await browser.getElement('.user-name').text());
+assert.strictEqual(await browser.getElement('.user-name').text(), 'someone');
 ```
 
-### browser.assertElementLacksText(selector: string, textOrRegex: string|RegExp): Promise<Element>
+### browser.assertElementLacksText(selector: string, textOrRegex: string|RegExp): Promise\<Element\>
 
 Asserts that the element at `selector` does not contain `textOrRegex`.
 Returns the element.
@@ -357,7 +360,7 @@ Inverse of `assertElementHasText`.
 await browser.assertElementLacksText('.user-name', 'someone');
 ```
 
-### browser.assertElementHasValue(selector: string, textOrRegex: string|RegExp): Promise<Element>
+### browser.assertElementHasValue(selector: string, textOrRegex: string|RegExp): Promise\<Element\>
 
 Asserts that the element at `selector` does not have the value `textOrRegex`.
 Returns the element.
@@ -368,10 +371,10 @@ or that node's value is not `textOrRegex`.
 ```js
 await browser.assertElementHasValue('.user-name', 'someone else');
 // is the same as:
-assert.equal('someone else', browser.getElement('.user-name').value());
+assert.strictEqual(browser.getElement('.user-name').value(), 'someone else');
 ```
 
-### browser.assertElementLacksValue(selector: string, textOrRegex: string|RegExp): Promise<Element>
+### browser.assertElementLacksValue(selector: string, textOrRegex: string|RegExp): Promise\<Element\>
 
 Asserts that the element at `selector` does not have the value `textOrRegex`.
 Returns the element.
@@ -382,7 +385,7 @@ Inverse of `assertElementHasValue`.
 await browser.assertElementLacksValue('.user-name', 'someone else');
 ```
 
-### browser.assertElementHasAttributes(selector: string, attributes: Record<string, string>): Promise<Element>
+### browser.assertElementHasAttributes(selector: string, attributes: Record\<string, string\>): Promise\<Element\>
 
 Asserts that the element at `selector` contains `attribute:value` pairs specified by `attributes` object.
 Returns the element.
@@ -397,7 +400,7 @@ await browser.assertElementHasAttributes('.user-name', {
 });
 ```
 
-### browser.assertElementIsDisplayed(selector: string): Promise<Element>
+### browser.assertElementIsDisplayed(selector: string): Promise\<Element\>
 
 Asserts that the element at `selector` exists and is visible.
 Returns the element.
@@ -405,18 +408,17 @@ Returns the element.
 ```js
 await browser.assertElementIsDisplayed('.user-name');
 // is the same as
-assert.expect(await browser.getElement('.user-name').isDisplayed());
+assert.ok(await browser.getElement('.user-name').isDisplayed());
 ```
 
-### browser.assertElementNotDisplayed(selector: string): Promise<Element>
+### browser.assertElementNotDisplayed(selector: string): Promise\<Element\>
 
 Asserts that the element at `selector` is not visible.
 Returns the element.
 
 Inverse of `assertElementIsDisplayed`.
 
-
-### browser.assertElementExists(selector: string): Promise<Element>
+### browser.assertElementExists(selector: string): Promise\<Element\>
 
 Asserts that the element at `selector` exists.
 
@@ -424,7 +426,7 @@ Asserts that the element at `selector` exists.
 await browser.assertElementExists('.user-name');
 ```
 
-### browser.assertElementDoesntExist(selector: string): Promise<Element>
+### browser.assertElementDoesntExist(selector: string): Promise\<Element\>
 Asserts that the element for `selector` doesn't exist.
 
 Inverse of `assertElementExists`.
@@ -434,13 +436,13 @@ await browser.assertElementDoesntExist('.user-name');
 ```
 
 
-### browser.assertElementsNumber(selector: string, number: number): Promise<Element>
+### browser.assertElementsNumber(selector: string, number: number): Promise\<Element\>
 
 Asserts that `selector` matches exactly `number` elements.
 ```js
 await browser.assertElementsNumber('.foo', 3) // must have exactly 3 elements
 ```
-### browser.assertElementsNumber(selector:string, {min?: number, max?: number, equal?: number}): Promise<Element[]>
+### browser.assertElementsNumber(selector:string, {min?: number, max?: number, equal?: number}): Promise\<Element[]\>
 <span class="new-in">Added in: Testium-driver-wd v3.0.0</span>
 
 Asserts that `selector` matches element numbers:
@@ -467,7 +469,7 @@ const element = await browser.getElement('#foo');
 element.click();
 ```
 
-### element.get(attribute: string): Promise<string|null>
+### element.get(attribute: string): Promise\<string|null\>
 
 Returns the element's specified HTML `attribute`,
 e.g. "value", "id", or "class".
@@ -476,18 +478,17 @@ e.g. "value", "id", or "class".
 const classAttribute = await element.get('class')
 ```
 
-### element.text(): Promise<string>
+### element.text(): Promise\<string\>
 
 Returns the element's text contents.
 
-Note that WebDriver (and therefore Testium)
-will not return text of hidden elements.
+Note that WebDriver (and therefore Testium) will not return text of hidden elements.
 
 ```js
 const text = await element.text();
 ```
 
-### element.isDisplayed(): Promise<boolean>
+### element.isDisplayed(): Promise\<boolean\>
 
 Returns `true` if the element is visible.
 
@@ -503,7 +504,7 @@ if (isDiplayed) {
 
 ## Forms
 
-### browser.clear(cssSelector: string): Promise<Element>
+### browser.clear(cssSelector: string): Promise\<Element\>
 
 Clears the input found by the given `cssSelector`.
 
@@ -513,7 +514,7 @@ const value = await browser
   .getValue();
 ```
 
-### browser.fillFields(fields: Record<string, string>): Promise<Element>
+### browser.fillFields(fields: Record<string, string>): Promise\<Element\>
 
 Convenience method for setting the value for multiple form fields at once.
 `fields` is an object that maps css selectors to values.
@@ -529,7 +530,7 @@ browser
   .setValue('.last-name', 'Smith');
 ```
 
-### browser.setValue(cssSelector: string, value: string|number): Promise<Element>
+### browser.setValue(cssSelector: string, value: string|number): Promise\<Element\>
 
 *Alias: browser.clearAndType*
 
@@ -542,7 +543,7 @@ browser
   .clickOn('.submit');
 ```
 
-### browser.type(cssSelector: string, value: string|number): Promise<Element>
+### browser.type(cssSelector: string, value: string|number): Promise\<Element\>
 
 Sets a value to the form element found for selector `cssSelector`.
 
@@ -552,7 +553,7 @@ const value = await browser
   .getValue();
 ```
 
-### element.clear(): Promise<Element>
+### element.clear(): Promise\<Element\>
 
 Clears the input element.
 
@@ -562,7 +563,7 @@ const value = await browser
   .clear();
 ```
 
-### element.type(value: string): Promise<Element>
+### element.type(value: string): Promise\<Element\>
 
 Type text to the input element.
 
@@ -574,17 +575,17 @@ const value = await browser
 
 ## Page
 
-### browser.getPageTitle(): Promise<string>
+### browser.getPageTitle(): Promise\<string\>
 
 Returns the current page title.
 
 ```js
 const title = await browser.getPageTitle();
 
-assert.equal('foo', title)
+assert.strictEqual(title, 'foo')
 ```
 
-### browser.getPageSource(): Promise<Element>
+### browser.getPageSource(): Promise\<Element\>
 
 Returns the current page's html source.
 Using this method usually means
@@ -594,7 +595,7 @@ that can be done without a browser.
 ```js
 const pageSource = await browser.getPageSource();
 
-assert.match(/body/, pageSource);
+assert.ok(/body/.test(pageSource));
 ```
 
 Note that if the browser is presenting something like an XML or JSON response,
@@ -604,24 +605,20 @@ If you need to simply test such a response,
 use a simpler test that doesn't involve a browser.
 For example, you could use a normal HTTP client library to load a URL relative to `browser.appUrl`.
 
-### browser.getPageSize(): Promise<{width: number, height: number}>
+### browser.getPageSize(): Promise\<{width: number, height: number}\>
 
-Returns the current window's size
-as an object with height and width properties
-in pixels.
+Returns the current window's size as an object with height and width properties in pixels.
 
 ```js
 const pageSize = await browser.getPageSize();
 
-assert.deepEqual({ width: 800, height: 600 }, pageSize);
+assert.deepStrictEqual(pageSize, { width: 800, height: 600 });
 ```
 
-This can be useful for responsive UI testing
-when combined with `browser.setPageSize`.
-Testium defaults the page size to
-`height: 768` and `width: 1024`.
+This can be useful for responsive UI testing when combined with `browser.setPageSize`.
+Testium defaults the page size to `height: 768` and `width: 1024`.
 
-### browser.setPageSize({height: number, width: number}): Promise<void>
+### browser.setPageSize({height: number, width: number}): Promise\<void\>
 
 Sets the current window's size in pixels.
 
@@ -634,12 +631,10 @@ await browser
 
 ## Evaluate
 
-Note that client-side functions
-will not have access to server-side values.
-Return values have to cleanly serialize as JSON,
-otherwise the behavior is undefined.
+Note that client-side functions will not have access to server-side values.
+Return values have to cleanly serialize as JSON, otherwise the behavior is undefined.
 
-### browser.evaluate(code: string): Promise<any>
+### browser.evaluate(code: string): Promise\<any\>
 
 **Warning:** Consider using the `function` variant below.
 Having code with proper syntax highlighting and linting can prevent frustrating debugging sessions.
@@ -652,9 +647,10 @@ const code = 'return document.querySelector(\'.menu\').style;';
 const style = await browser.evaluate(code);
 ```
 
-### browser.evaluate(args..., function(args...)): Promise<any>
+### browser.evaluate(args..., function(args...)): Promise\<any\>
 
-Returns the result of the given function, invoked on the webdriver side (so you can not bind its `this` object or access context variables via lexical closure).
+Returns the result of the given function, invoked on the webdriver side 
+(so you cannot bind its `this` object or access context variables via lexical closure).
 If you provided `args`, Testium will marshals them as JSON and passes them to the function in the given order.
 
 #### Example: Messing With Globals
@@ -681,7 +677,7 @@ browser.evaluate('http://foo.bar', '/', '#hash', (domain, path, hash) => {
 ```
 
 
-### browser.evaluateAsync(args..., function(args...)): Promise<void>
+### browser.evaluateAsync(args..., function(args...)): Promise\<void\>
 
 The executed script is required to return a Promise.
 
@@ -735,7 +731,7 @@ interface Cookie {
 Note that the interface shown above is Testium-specific and **only** applies
 when using `setCookieValue()` or `setCookieValues()`
 
-### browser.setCookieValue(name :string, value: string): Promise<void>
+### browser.setCookieValue(name :string, value: string): Promise\<void\>
 
 Sets a cookie on the current page's domain to the value given.
 
@@ -745,7 +741,7 @@ browser
   .loadPage('/');
 ```
 
-### browser.setCookieValues(Record<string, string>): Promise<void>
+### browser.setCookieValues(Record<string, string>): Promise\<void\>
 
 Given an object mapping cookie names to values, sets multiple cookies by
 calling `setCookieValue()` the requisite number of times for you.
@@ -759,7 +755,7 @@ browser
   .loadPage('/');
 ```
 
-### browser.getCookie(name: string): Promise<string|undefined>
+### browser.getCookie(name: string): Promise\<string|undefined\>
 
 Returns a cookie object: 
 ```ts
@@ -777,10 +773,10 @@ interface Cookie {
 ```js
 const cookie = await browser.getCookie('foo');
 
-assert.equal('bar', cookie.value);
+assert.strictEqual(cookie.value, 'bar');
 ```
 
-### browser.getCookies(): Promise<Record<string, string>[]>
+### browser.getCookies(): Promise\<Record\<string, string\>[]\>
 
 Returns an array of cookie objects with the structure:
 ```json5
@@ -798,10 +794,10 @@ Returns an array of cookie objects with the structure:
 ```js
 const cookies = await browser.getCookies();
 
-assert.expect(cookies.every(cookie => cookie.secure === true));
+assert.ok(cookies.every(cookie => cookie.secure));
 ```
 
-### browser.clearCookies(): Promise<void>
+### browser.clearCookies(): Promise\<void\>
 
 Deletes all cookies.
 
@@ -809,7 +805,7 @@ Deletes all cookies.
 browser.clearCookies();
 ```
 
-### browser.clearCookie(name: string): Promise<void>
+### browser.clearCookie(name: string): Promise\<void\>
 
 Deletes a cookie by `name`.
 
@@ -840,7 +836,7 @@ describe('Alert-based tests', function() {
 });
 ```
 
-### browser.getAlertText(): Promise<string>
+### browser.getAlertText(): Promise\<string\>
 
 Get the text of a visible alert, prompt, or confirm a dialog.
 
@@ -848,7 +844,7 @@ Get the text of a visible alert, prompt, or confirm a dialog.
 const alertText = await browser.getAlertText();
 ```
 
-### browser.acceptAlert(): Promise<void>
+### browser.acceptAlert(): Promise\<void\>
 
 Accepts a visible alert, prompt, or confirm a dialog.
 
@@ -856,7 +852,7 @@ Accepts a visible alert, prompt, or confirm a dialog.
 browser.acceptAlert();
 ```
 
-### browser.dismissAlert(): Promise<void>
+### browser.dismissAlert(): Promise\<void\>
 
 Dismisses a visible alert, prompt, or confirm dialog.
 
@@ -864,7 +860,7 @@ Dismisses a visible alert, prompt, or confirm dialog.
 browser.dismissAlert();
 ```
 
-### browser.typeAlert(value: string): Promise<void>
+### browser.typeAlert(value: string): Promise\<void\>
 
 Types into a visible prompt dialog.
 
@@ -874,7 +870,7 @@ browser.typeAlert('');
 
 ## Windows & Frames
 
-### browser.closeWindow(): Promise<void>
+### browser.closeWindow(): Promise\<void\>
 
 Close the currently focused window.
 
@@ -889,7 +885,7 @@ browser
 The name used to identify the popup can be set in the code used to create it.
 It's the `strWindowName` in [`window.open(strUrl, strWindowName, [strWindowFeatures])`](https://developer.mozilla.org/en-US/docs/Web/API/Window/open).
 
-### browser.switchToDefaultFrame(): Promise<void>
+### browser.switchToDefaultFrame(): Promise\<void\>
 
 Switch focus to the default frame (i.e. the actual page).
 
@@ -900,14 +896,14 @@ browser
   .switchToDefaultFrame();
 ```
 
-### browser.switchToFrame(id: string): Promise<void>
+### browser.switchToFrame(id: string): Promise\<void\>
 
 Change focus to another frame on the page.
 ```js
 browser.switchToFrame('some-frame')
 ```
 
-### browser.switchToDefaultWindow(): Promise<void`
+### browser.switchToDefaultWindow(): Promise\<void\>
 
 Switch focus to the window that was most recently referenced by `loadPage`. Useful when interacting with popup windows.
 
@@ -921,7 +917,7 @@ browser
   .switchToDefaultWindow();
 ```
 
-### browser.switchToWindow(name: string): Promise<void>
+### browser.switchToWindow(name: string): Promise\<void\>
 
 Switch focus to the window with name `name`.
 
@@ -933,25 +929,24 @@ await browser.switchToWindow('popup1');
 
 Lighthouse and Puppeteer require Chromedriver and headless Chrome to be present in the environment.
 
-### browser.emulate(deviceDescriptor: string): Promise<void>
+### browser.emulate(deviceDescriptor: string): Promise\<void\>
 
 Emulates a device given its name. 
-A list of device descriptor names can be found at [puppeteers deviceDescriptors](https://github.com/puppeteer/puppeteer
-/blob/master/src/DeviceDescriptors.ts)
+A list of device descriptor names can be found at [puppeteers deviceDescriptors](https://github.com/puppeteer/puppeteer/blob/master/src/DeviceDescriptors.ts)
 
 ```js
 browser.emulate('iPhone X').loadPage();
 ```
 
 
-### browser.withPuppeteerPage(function(page: PuppeteerPage): any): Promise<void>
+### browser.withPuppeteerPage(function(page: PuppeteerPage): any): Promise\<void\>
 Connects Puppeteer to the Chromedriver and exposes the [Puppeteer `Page` api](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#class-page)
 
 ```js
 const Page = await browser.withPuppeteerPage();
 ```
 
-### browser.getLighthouseData(flags?: Record<string, any>, config? Record<string, any>): Promise<LHResultObj>
+### browser.getLighthouseData(flags?: Record\<string, any\>, config? Record\<string, any\>): Promise\<LHResultObj\>
 Returns Lighthouse and returns Lighthouse raw result data. Information regarding `flags` and `config` 
 can be found in [the official Lighthouse docs](https://github.com/GoogleChrome/lighthouse/tree/master/docs#using-programmatically)
 
@@ -987,7 +982,7 @@ it('my Lighthouse test', async function() {
 ```
 
 
-### browser.runLighthouseAudit(flags?: Record<string, any>, config? Record<string, any>): Promise<parsedLHResultObj>
+### browser.runLighthouseAudit(flags?: Record\<string, any\>, config? Record\<string, any\>): Promise\<parsedLHResultObj\>
 
 Runs the lighthouse tests on the current page loaded by `loadPage` and resolves to a result object
 containing score and list of error list.
@@ -1012,11 +1007,11 @@ before(async () => {
 });
 
 it(`checking for score over 85`, () =>
-  assert.expect(`score is only ${lhResults.score}`, lhResults.isSuccess(85))
+  assert.ok(lhResults.isSuccess(85), `score is only ${lhResults.score}`)
 );
 
 it(`There are no errors`, () =>
-  assert.expect(lhResults.errorString(), Object.keys(lhResults.errors()).length === 0)
+  assert.strictEqual(Object.keys(lhResults.errors()).length, 0)
 );
 ```
 
@@ -1034,8 +1029,9 @@ interface parsedLHResultObj {
 }
 ```
 
-### browser.a11yAudit({ignore?: function|string[], flags?: Record<string, any>, config? Record<string, any>}): Promise<void>
-Runs the accessibility issues on the current page loaded by `loadPage`. `flags`, `config` and `ignore` are optional parameters.
+### browser.a11yAudit({ignore?: function|string[], flags?: Record<string, any>, config? Record\<string, any\>}): Promise\<void\>
+Runs the accessibility issues on the current page loaded by `loadPage`. 
+`flags`, `config` and `ignore` are optional parameters.
 
 `ignore` is the ids of issues to ignore, a string array
 
@@ -1044,7 +1040,7 @@ const issues = await browser
   .loadPage('/path')
   .a11yAudit();
 
-assert.expect(issues.length === 0)
+assert.strictEqual(issues.length, 0)
 ```
 
 ```js
@@ -1054,10 +1050,10 @@ const issues = await browser
     ignore: ['color-contrast', 'meta-viewport'], // ignore 'color-contrast' and 'meta-viewport'
   });
 
-assert.expect(issues.length === 0);
+assert.strictEqual(issues.length, 0);
 ```
 
-### assertAccessibilityScore(minScore: number, skipAudits: string[]): Promise<parsedLHResultObj>
+### assertAccessibilityScore(minScore: number, skipAudits: string[]): Promise\<parsedLHResultObj\>
 Runs Lighthouse `accessibility` audit.
 
 ```js
@@ -1071,7 +1067,7 @@ To disable specific audits, pass the optional array containing the category's au
 browser.loadPage('/').assertAccessibilityScore(40, ['listitem']);
 ```
 
-### assertBestPracticesScore(minScore: number, skipAudits: string[]]): Promise<parsedLHResultObj>
+### assertBestPracticesScore(minScore: number, skipAudits: string[]]): Promise\<parsedLHResultObj\>
 Runs Lighthouse `Best Practices` audit.
 
 ```js
@@ -1085,7 +1081,7 @@ To disable specific audits, pass the optional array containing the category's au
 browser.loadPage('/').assertBestPracticesScore(40, ['js-libraries']);
 ```
 
-### assertPerformanceScore(minScore: number, skipAudits: string[]): Promise<parsedLHResultObj>
+### assertPerformanceScore(minScore: number, skipAudits: string[]): Promise\<parsedLHResultObj\>
 Runs Lighthouse `Performance` audit. 
 The following performance audits are skipped by default: `final-screenshot`, `is-on-https`, `screenshot-thumbnails`,
 
@@ -1101,7 +1097,7 @@ browser.loadPage('/').assertPerformanceScore(40, ['font-display']);
 ```
 
 
-### assertPwaScore(minScore: number, skipAudits: string[]): Promise<parsedLHResultObj>
+### assertPwaScore(minScore: number, skipAudits: string[]): Promise\<parsedLHResultObj\>
 Runs Lighthouse `PWA` audit.
 
 ```js
@@ -1115,7 +1111,7 @@ To disable specific audits, pass the optional array containing the category's au
 browser.loadPage('/').assertPwaScore(40, ['apple-touch-icon']);
 ```
 
-### assertSeoScore(minScore: number, skipAudits: string[]): Promise<parsedLHResultObj>
+### assertSeoScore(minScore: number, skipAudits: string[]): Promise\<parsedLHResultObj\>
 Runs Lighthouse `SEO` audit.
 
 ```js
