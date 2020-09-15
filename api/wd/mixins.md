@@ -42,7 +42,6 @@ Edit (or create) `.testiumrc` in the project directory:
 In test files you can now start using `browser.login`:
 
 ```js
-// ...
 before(() => browser.login().loadPage('/account'));
 
 it("shows the test user's account", () => { /* ... */ });
