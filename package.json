@@ -1,0 +1,9 @@
+{
+  "name": "@testium/documentation",
+  "version": "1.0.0",
+  "scripts": {
+    "install": "bundle install",
+    "start": "bundle exec jekyll server"
+  },
+  "dependencies": {}
+}

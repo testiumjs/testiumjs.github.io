@@ -3,7 +3,7 @@ title: Promise Chains
 layout: sidebar
 ---
 
-# [`Testium-driver-wd`](https://www.npmjs.com/package/Testium-driver-wd)
+# [`testium-driver-wd`](https://www.npmjs.com/package/testium-driver-wd)
 
 ## General Notes
 
@@ -44,7 +44,7 @@ before(function requiresAlerts() {
 Returns `browser.capabilities`. 
 
 ```js
-const capabilities = await browser.sessionCapabilities()
+const capabilities = await browser.sessionCapabilities();
 ```
 
 ### browser.getConsoleLogs([logLevel: string]): Promise\<ConsoleLogObj[]\>
@@ -54,15 +54,14 @@ Returns all log events for `logLevel` `all`(default) `log`,`warn`, `error`, `deb
 ```js
 const errorLogs = await browser.getConsoleLogs('error');
 ```
-**Warnings:** 
+**⚠️ Warning:** 
 - Each browser implements this differently against the WebDriver spec.
 - Logs are not persistent, and can't be retrieved multiple times.
 
 ```js
+const errorLogs = await browser.getConsoleLogs('error');    // retrieve existing errors
 
-const errorLogs = await browser.getConsoleLogs('error'); // some errors exists
-// get error logs once more. It will not contain the previous errors logs
-const emptyErrors = await browser.getConsoleLogs('error'); 
+const emptyErrors = await browser.getConsoleLogs('error');  // Will not contain the previous errors logs
 ``` 
 
 ### browser.getScreenshot(): Promise\<string\>
@@ -109,6 +108,8 @@ e.g. `http://localhost:1234/some/route`.
 const url = await browser.getUrl();
 
 assert.ok(/^https:/.test(url));
+
+assert.match(url, /^https:/);   // Node v12.16.0+
 ```
 
 ### browser.getUrlObject(): Promise\<URLObject\>
@@ -119,8 +120,8 @@ Returns a [WHATWG URL instance](https://nodejs.org/dist/latest-v13.x/docs/api/ur
 ```js
 const urlObj = browser
   .loadPage('/#abc')
-  .clickOn('#something') // do something that changes the url
-  .getUrlObject()
+  .clickOn('#something')    // do something that changes the url
+  .getUrlObject();
 ```
 
 ### browser.getStatusCode(): Promise\<number\>
@@ -137,7 +138,7 @@ Navigates the browser to the specified relative or absolute url.
 
 ```js
 await browser
-  .loadPage('/products'); // implies assertStatusCode(200)
+  .loadPage('/products');   // implies assertStatusCode(200)
 ```
 
 The following `loadPageOpts` options are supported:
@@ -188,20 +189,6 @@ await browser
   .loadPage('/products', { headers: { 'x-custom-header': 'Some-Value' } });
 ```
 
-#### Example: Absolute URL
-
-If the url is absolute, any methods that depend on the proxy (`getStatusCode` and `getHeaders`)
-will not work.
-This is a bug and will be fixed.
-
-```js
-await browser
-  // Navigates to https://www.google.com/?q=Testium+api
-  .loadPage('http://www.google.com', { query: { q: 'Testium api'} })
-  // But this will fail because the URL was absolute:
-  .getStatusCode();
-```
-
 ### browser.refresh(): Promise\<void\>
 
 Refresh the current page.
@@ -209,8 +196,8 @@ Refresh the current page.
 ```js
 await browser
   .loadPage('/')
-  .clickOn('#something') // does something that changes the page
-  .refresh();            // reload the current page
+  .clickOn('#something')    // does something that changes the page
+  .refresh();               // reload the current page
 ```
 
 ### browser.waitForPath(path: string|RegExp, timeout=5000: number): Promise\<void\>
@@ -218,7 +205,7 @@ await browser
 Waits `timeout` ms for the browser to be at the specified `path`.
 ```js
 await browser.waitForPath('/foo');
-await browser.waitForPath('/foo', 10000); // with increased timeout
+await browser.waitForPath('/foo', 10000);   // with increased timeout
 ```
 ### browser.waitForUrl(url: string|RegExp, query?: Record\<string, string|number\>, timeout=5000: number): Promise\<void\>
 
@@ -440,7 +427,7 @@ await browser.assertElementDoesntExist('.user-name');
 
 Asserts that `selector` matches exactly `number` elements.
 ```js
-await browser.assertElementsNumber('.foo', 3) // must have exactly 3 elements
+await browser.assertElementsNumber('.foo', 3);  // must have exactly 3 elements
 ```
 ### browser.assertElementsNumber(selector:string, {min?: number, max?: number, equal?: number}): Promise\<Element[]\>
 <span class="new-in">Added in: Testium-driver-wd v3.0.0</span>
@@ -452,9 +439,9 @@ Asserts that `selector` matches element numbers:
 - `equal`:  exactly `equal` amount of elements
 
 ```js
-await browser.assertElementsNumber('.foo', { min: 1 });   // must have at least 5 elements
-await browser.assertElementsNumber('.bar', { max: 5 });   // can have up to 5 elements
-await browser.assertElementsNumber('.elm', { equal: 3 }); // must have exactly 3 elements
+await browser.assertElementsNumber('.foo', { min: 1 });     // must have at least 5 elements
+await browser.assertElementsNumber('.bar', { max: 5 });     // can have up to 5 elements
+await browser.assertElementsNumber('.elm', { equal: 3 });   // must have exactly 3 elements
 ```
 
 
@@ -737,7 +724,7 @@ Sets a cookie on the current page's domain to the value given.
 
 ```js
 browser
-  .setCookieValue('userId', '3') // set before loading the page
+  .setCookieValue('userId', '3')    // set before loading the page
   .loadPage('/');
 ```
 
@@ -900,7 +887,7 @@ browser
 
 Change focus to another frame on the page.
 ```js
-browser.switchToFrame('some-frame')
+browser.switchToFrame('some-frame');
 ```
 
 ### browser.switchToDefaultWindow(): Promise\<void\>
@@ -1002,7 +989,7 @@ before(async () => {
   lhResults = await browser
     .loadPage('/path')
     .runLighthouseAudit({
-      chromeFlags: ['--disable-device-emulation'], // To run audit in Desktop mode
+      chromeFlags: ['--disable-device-emulation'],  // To run audit in Desktop mode
     });
 });
 
@@ -1040,14 +1027,14 @@ const issues = await browser
   .loadPage('/path')
   .a11yAudit();
 
-assert.strictEqual(issues.length, 0)
+assert.strictEqual(issues.length, 0);
 ```
 
 ```js
 const issues = await browser
   .loadPage('/path')
   .a11yAudit({ 
-    ignore: ['color-contrast', 'meta-viewport'], // ignore 'color-contrast' and 'meta-viewport'
+    ignore: ['color-contrast', 'meta-viewport'],    // ignore 'color-contrast' and 'meta-viewport'
   });
 
 assert.strictEqual(issues.length, 0);
