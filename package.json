@@ -5,5 +5,9 @@
     "install": "bundle install",
     "start": "bundle exec jekyll server"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/testiumjs/testiumjs.github.io"
+  },
   "dependencies": {}
 }

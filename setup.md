@@ -17,7 +17,7 @@ Install Testium related packages & `Mocha`
 npm install --save-dev testium-mocha testium-driver-wd mocha
 ```
 
-If your CI provides headless chrome and `chromedriver`, you should install the `chromedriver` package globally.
+If your CI provides headless Chrome and `chromedriver`, you should install the `chromedriver` package globally.
 ```console
 npm install -g chromedriver
 ```
@@ -71,7 +71,7 @@ describe('The homepage', () => {
   before('Load homepage', () => browser.loadPage('/'));
 
   it('shows the right title', async () => {
-    const title = await browser.getPageTitle()
+    const title = await browser.getPageTitle();
     
     assert.strictEqual(title, 'Hello');
   });
@@ -83,22 +83,26 @@ describe('The homepage', () => {
 You can just run the file above using `mocha`
 and Testium will handle everything for you:
 
-* Launch the app and headless chrome.
+* Launch the app and headless Chrome.
 * Wait for the app to listen.
 * Clear cookies & reset the window to a well-known size.
-* Close the webdriver session and tear down your app & headless chrome.
+* Close the webdriver session and tear down your app & headless Chrome.
 
-```console
-npx mocha my-test.js
-# Or, after adding 'node_modules/.bin' to your $PATH:
-mocha my-test.js
+```bash
+npx mocha test/integration/testsuite.test.js
+```
+
+To run tests against an already running local server add `--launch=false`
+
+```bash
+npx mocha --launch=false test/integration/testsuite.test.js
 ```
 
 Thanks to [`rc`](https://www.npmjs.com/package/rc) you can use environment variables to override options.
 This makes it super easy to run the same test in regular Chrome:
 
-```console
-testium_chrome__headless=false mocha my-test.js
+```bash
+testium_chrome__headless=false npx mocha test/integration/testsuite.test.js
 ```
 
 **NOTE**: Testium will automatically download selenium the first time it is needed.

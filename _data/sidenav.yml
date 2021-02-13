@@ -11,12 +11,10 @@
   - url: /api/
     title: Core API
   - url: /api/wd/
-    title: Promise Chains
+    title: Browser Promise Chain
     subitems:
     - url: '/api/wd/#navigation'
       title: Navigation
-    - url: '/api/wd/#elements'
-      title: 'Elements'
     - url: '/api/wd/#forms'
       title: 'Forms'
     - url: '/api/wd/#evaluate'
@@ -31,5 +29,7 @@
       title: 'Windows & Frames'
     - url: '/api/wd/#lighthouse--puppeteer'
       title: 'Lighthouse & Puppeteer'
-    - url: '/api/wd/mixins.html'
-      title: 'Custom Methods'
+  - url: '/api/wd/#elements'
+    title: 'Element Promise Chain'
+  - url: '/api/wd/mixins.html'
+    title: 'Custom Methods'

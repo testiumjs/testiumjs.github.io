@@ -10,7 +10,7 @@ Testium is a testing library focused on providing a simple,
 but effective,
 tool for testing your web applications
 in different browsers (via [Selenium][selenium])
-and headlessly (via [chromedriver][chromedriver]).
+and headless (via [chromedriver][chromedriver]).
 It can easily be embedded into any test framework
 and even supports launching the app for you.
 
