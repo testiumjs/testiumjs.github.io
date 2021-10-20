@@ -218,3 +218,58 @@ If the `serverUrl` is set, Testium will not try to launch its own instance of se
 
 How long to wait for selenium to listen for requests in milliseconds.
 Defaults to 90 seconds.
+
+### processes
+
+Testium manages a number of processes on your app's behalf (your app itself,
+a proxy, chromedriver, etc).  If you have any additional processes you need
+started/stopped during a test run, you may add them to the `processes` section.
+
+Example:
+
+```json
+{
+  "processes": {
+    "memcached": {
+      "command": "memcached",
+      "commandArgs": ["-u", "memcached"], // note lack of -d flag
+      "port": 11211,
+      "reuseExisting": true
+    }
+  }
+}
+```
+
+The format is roughly the same as the
+[configuration for `subprocess`][subp-config], but with the addition of a
+`reuseExisting` property.  Here are the important properties you'll certainly
+need:
+
+[subp-config]: https://github.com/testiumjs/testium-core/tree/main/lib/subprocess#usage
+
+#### `processes.{processName}.command`
+
+The command to run if this process needs to be started.  Whatever command it
+is should **not** daemonize, but should produce its output on stdout/stderr,
+and not exit until killed.
+
+#### `processes.{processName}.commandArgs`
+
+Arguments to the `command` in an array.  No globbing or expansion is done,
+apart from any appeareance of `%port%` will be replaced with the manually
+or automatically assigned port.
+
+#### `processes.{processName}.port`
+
+If no `port` is specified, a free port will be found, and will be made available
+in `commandArgs` as noted above.  If a `port` **is** specified, that one will
+be used.  If you set `reuseExisting` to `true`, you **must** specify a `port`.
+
+#### `processes.{processName}.reuseExisting`
+
+By default, if a process is already listening on a given port and you specify
+a command which tries to listen on the same port as part of your `processes`,
+it will fail.  If you supply an explicit `port` and set `reuseExisting` to
+`true`, then a check will be done first, and if something is already running
+on that port, testium will not try to start up that process (or shut it down
+when done).
